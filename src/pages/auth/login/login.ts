@@ -1,37 +1,33 @@
-import { IUser } from "../../../types/IUser";
-import { Role } from "../../../types/Role";
-import { navigate } from "../../../utils/navigate";
-import {  saveUser } from "../../../utils/localStorage";
+import type { IUser } from "../../../types/IUser";
+import type { Rol } from "../../../types/Rol";
+import { navigate } from "../../../utils/navigate"; 
 
-const emailInput = document.getElementById('email') as HTMLInputElement;
-const passwordInput = document.getElementById('password') as HTMLInputElement;
-const roleSelect = document.getElementById('role') as HTMLSelectElement;
-const loginForm = document.getElementById('form_login') as HTMLFormElement;
+const form = document.getElementById("form") as HTMLFormElement;
+const inputEmail = document.getElementById("email") as HTMLInputElement;
+//const inputPassword = document.getElementById("password") as HTMLInputElement;
+const selectRol = document.getElementById("rol") as HTMLSelectElement;
 
-loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = emailInput.value;
-    const password = passwordInput.value;
-    const role = roleSelect.value as Role;
+form.addEventListener("submit", (e: SubmitEvent) => {
+  e.preventDefault();
+  const valueEmail = inputEmail.value;
+  //const valuePassword = inputPassword.value;
+  const valueRol = selectRol.value as Rol;
 
-    if (!email || !password) {
-        console.error("Por favor, complete todos los campos.");
-        return;
-    }
+  if (valueRol === "admin") {
+    navigate("/src/admin/home/home.html");
+  } else if (valueRol === "client") {
+    navigate("/src/pages/store/home/home.html");
+  }
 
-    const user: IUser = {
-        email: email,
-        password: password,
-        role: role,
-        activo: true
-    }
-    // Guardar usuario y establecer sesión
-    saveUser(user);
-    if (role === 'admin') {
-        navigate('/src/admin/home/home.html');
-    } else if (role === 'client') {
-        navigate('/src/client/home/home.html');
-    }
+  const user: IUser = {
+    email: valueEmail,
+    role: valueRol,
+    loggedIn: true,
+    id: 1,
+  };
 
-    console.log("Usuario logueado:", { email, password, role });
-})
+  const parseUser = JSON.stringify(user);
+  localStorage.setItem("userData", parseUser);
+  
+});
+ 

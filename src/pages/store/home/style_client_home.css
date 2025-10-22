@@ -1,0 +1,88 @@
+/* --- Variables de Color y Estilos Generales (Tema Oscuro) --- */
+:root {
+    --primary-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --text-color: #f0f0f0;
+    --background-color: #121212;
+    --card-background: #1e1e1e;
+    --button-background: #ff00ff; /* Fucsia */
+    --button-hover-background: #d900d9; /* Fucsia más oscuro */
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Estilos del Cuerpo de la Página --- */
+body {
+    margin: 0;
+    font-family: var(--primary-font);
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    text-align: center;
+}
+
+/* --- Contenedor Principal --- */
+.client-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+/* --- Tarjeta de Cliente --- */
+.client-card {
+    background: var(--card-background);
+    border-radius: 15px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #2c2c2c;
+}
+
+/* --- Título --- */
+.client-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.client-card p {
+    font-size: 1.1rem;
+    color: #bbb;
+    margin-bottom: 2rem;
+}
+
+/* --- Botón de Logout --- */
+#logoutButton {
+    background: var(--button-background);
+    border: none;
+    border-radius: 8px;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#logoutButton:hover {
+    background-color: var(--button-hover-background);
+    transform: translateY(-2px);
+}
+
+/* --- Media Queries para Responsividad --- */
+@media (max-width: 480px) {
+    .client-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .client-title {
+        font-size: 1.8rem;
+    }
+}

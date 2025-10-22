@@ -1,0 +1,148 @@
+/* --- Variables de Color y Estilos Generales (Tema Oscuro) --- */
+:root {
+    --primary-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --text-color: #f0f0f0;
+    --background-color: #121212;
+    --card-background: #1e1e1e;
+    --input-background-color: #2a2a2a;
+    --input-border-color: #444;
+    --input-focus-border-color: #ff00ff; /* Fucsia */
+    --button-background: #ff00ff; /* Fucsia */
+    --button-hover-background: #d900d9; /* Fucsia más oscuro */
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Estilos del Cuerpo de la Página --- */
+body {
+    margin: 0;
+    font-family: var(--primary-font);
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--text-color);
+}
+
+/* --- Contenedor Principal --- */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+/* --- Tarjeta del Formulario --- */
+.register-card {
+    background: var(--card-background);
+    border-radius: 15px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    border: 1px solid #2c2c2c;
+}
+
+/* --- Título --- */
+.register-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+/* --- Formulario --- */
+#form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --- Grupos de Inputs --- */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+/* --- Etiquetas --- */
+.input-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #bbb;
+}
+
+/* --- Inputs --- */
+#form input {
+    background: var(--input-background-color);
+    border: 1px solid var(--input-border-color);
+    border-radius: 8px;
+    padding: 0.9rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#form input::placeholder {
+    color: #777;
+}
+
+#form input:focus {
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.15);
+}
+
+/* --- Botón de Envío --- */
+#form button[type="submit"] {
+    background: var(--button-background);
+    border: none;
+    border-radius: 8px;
+    padding: 0.9rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 1rem;
+}
+
+#form button[type="submit"]:hover {
+    background-color: var(--button-hover-background);
+    transform: translateY(-2px);
+}
+
+/* --- Enlace de Login --- */
+.login-link {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #bbb;
+}
+
+.login-link a {
+    color: var(--button-background);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.login-link a:hover {
+    color: var(--button-hover-background);
+    text-decoration: underline;
+}
+
+/* --- Media Queries para Responsividad --- */
+@media (max-width: 480px) {
+    .register-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .register-title {
+        font-size: 1.8rem;
+    }
+}

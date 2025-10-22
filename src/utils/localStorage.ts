@@ -1,18 +1,12 @@
-import { IUser } from "../types/IUser";
+import type { IUser } from "../types/IUser";
 
 export const saveUser = (user: IUser) => {
-    const userData = JSON.stringify(user);
-    try{
-        localStorage.setItem('userData', userData);
-    }catch(error){
-        console.error('Error al parsear usuarios:', error);
-    }
-}
-
-export const getUser = () => {
-    return localStorage.getItem('userData');
-}
-
+  const parseUser = JSON.stringify(user);
+  localStorage.setItem("userData", parseUser);
+};
+export const getUSer = () => {
+  return localStorage.getItem("userData");
+};
 export const removeUser = () => {
-    localStorage.removeItem('userData');
-}
+  localStorage.removeItem("userData");
+};
