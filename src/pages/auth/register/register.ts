@@ -40,7 +40,7 @@ const subirDatosUsuario = async (user: IUser) => {
     const dataToSend = {
       name: user.name,
       email: user.email,
-      pass: user.password,  // El backend espera "pass" no "password"
+      pass: user.password, 
       role: user.role
     };
     
@@ -99,7 +99,7 @@ form.addEventListener("submit", async (e: SubmitEvent) => {
     name: valueName,
     email: valueEmail,
     password: valuePassword,
-    role: "client" as Rol,
+    role: "CLIENT" as Rol,
     loggedIn: true,    
   };
 

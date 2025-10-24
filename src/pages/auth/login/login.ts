@@ -13,9 +13,9 @@ form.addEventListener("submit", (e: SubmitEvent) => {
   //const valuePassword = inputPassword.value;
   const valueRol = selectRol.value as Rol;
 
-  if (valueRol === "admin") {
+  if (valueRol === "ADMIN") {
     navigate("/src/admin/home/home.html");
-  } else if (valueRol === "client") {
+  } else if (valueRol === "CLIENT") {
     navigate("/src/pages/store/home/home.html");
   }
 
