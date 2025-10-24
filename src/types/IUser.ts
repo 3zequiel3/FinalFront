@@ -6,5 +6,5 @@ export interface IUser {
   password?: string;
   loggedIn: boolean;
   role: Rol;
-  id: number;
+  id?: number;
 }
