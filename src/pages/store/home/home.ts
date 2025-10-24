@@ -13,7 +13,7 @@ const initPage = () => {
   checkAuhtUser(
     "/src/pages/auth/login/login.html",
     "/src/pages/admin/home/home.html",
-    "client"
+    "CLIENT"
   );
 };
 initPage();
