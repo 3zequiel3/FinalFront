@@ -151,3 +151,14 @@ body {
     color: var(--button-hover-background);
     text-decoration: underline;
 }
+
+/* --- Mensaje de Error --- */
+.error-message {
+    display: block;
+    color: #ff4444;
+    font-size: 0.85rem;
+    text-align: center;
+    min-height: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}

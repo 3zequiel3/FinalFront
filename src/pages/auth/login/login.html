@@ -20,14 +20,7 @@
                     <label for="password">Contraseña</label>
                     <input type="password" id="password" name="password" autocomplete="off" placeholder="********" required>
                 </div>
-                <div class="input-group">
-                    <label for="rol">Rol</label>
-                    <select name="rol" id="rol" required>
-                        <option value="" disabled selected>Seleccione un rol</option>
-                        <option value="CLIENT">Cliente</option>
-                        <option value="ADMIN">Admin</option>
-                    </select>
-                </div>
+                <span id="login-error" class="error-message"></span>
                 <button type="submit">Ingresar</button>
             </form>
             <p class="signup-link">

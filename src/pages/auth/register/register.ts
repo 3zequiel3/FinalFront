@@ -9,6 +9,7 @@ const inputEmail = document.getElementById("email") as HTMLInputElement;
 const inputPassword = document.getElementById("password") as HTMLInputElement;
 const inputConfirmPassword = document.getElementById("confirm-password") as HTMLInputElement;
 const passwordError = document.getElementById("password-error") as HTMLSpanElement;
+const registerError = document.getElementById("register-error") as HTMLSpanElement;
 
 // Función para verificar si las contraseñas coinciden
 const verificarPassword = () => {
@@ -60,13 +61,11 @@ const subirDatosUsuario = async (user: IUser) => {
       // Intentar obtener el mensaje de error del servidor
       const errorText = await response.text();
       console.error("Respuesta del servidor:", errorText);
-      try {
-        const errorJson = JSON.parse(errorText);
-        console.error("Error JSON del servidor:", errorJson);
-      } catch {
-        console.error("El servidor respondió con texto:", errorText);
-      }
-      throw new Error(`HTTP error! status: ${response.status}`);
+      
+      // Mostrar el mensaje del servidor en la UI
+      registerError.textContent = `❌ ${errorText}`;
+      
+      throw new Error(errorText);
     }
     
     const data = await response.json();
@@ -75,7 +74,10 @@ const subirDatosUsuario = async (user: IUser) => {
     
   } catch (error) {
     console.error("Error al registrar usuario:", error);
-    alert("Hubo un error al registrar el usuario. Por favor, intenta de nuevo.");
+    // Si no hay mensaje de error específico, mostrar uno genérico
+    if (!registerError.textContent) {
+      registerError.textContent = "❌ Error al conectar con el servidor";
+    }
     throw error;
   }
 };
@@ -85,13 +87,17 @@ const subirDatosUsuario = async (user: IUser) => {
 
 form.addEventListener("submit", async (e: SubmitEvent) => {
   e.preventDefault();
+  
+  // Limpiar mensajes de error previos
+  registerError.textContent = "";
+  
   const valueName = inputName.value;
   const valueEmail = inputEmail.value;
   const valuePassword = inputPassword.value;
   const valueConfirmPassword = inputConfirmPassword.value;
 
   if (valuePassword !== valueConfirmPassword) {
-    alert("Las contraseñas no coinciden");
+    registerError.textContent = "❌ Las contraseñas no coinciden";
     return;
   }
 
