@@ -1,5 +1,6 @@
 import type { IUser } from "../types/IUser";
 import type { Rol } from "../types/Rol";
+import { envs } from "./enviromentVariable";
 import { getUSer, removeUser } from "./localStorage";
 import { navigate } from "./navigate";
 
@@ -27,6 +28,7 @@ export const checkAuhtUser = (
   }
 };
 
+const API_URL = envs.API_URL;
 
 const logoutBack = async () => {
   try{
@@ -34,7 +36,7 @@ const logoutBack = async () => {
     if(!user) return;
     const parseUser: IUser = JSON.parse(user);
 
-    const response = await fetch( import.meta.env.VITE_API_URL + "cliente/logout", {
+    const response = await fetch( `${API_URL}/usuario/logout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
