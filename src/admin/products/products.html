@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+</head>
+<body>
+    <h1 class="product-title">Administración de Productos</h1>
+    <div class="product-list">
+        <h2>Productos Existentes</h2>
+        <ul id="product-list-items">
+        </ul>
+    </div>
+    <div class="product-create-container">
+        <div class="product-card">
+            <form id="product-form">
+                <p>Gestiona los productos aquí.</p>
+                <div class="input-group">
+                    <label for="product-name">Nombre del Producto</label>
+                    <input type="text" id="product-name" name="product-name" autocomplete="off"
+                        placeholder="Nombre del producto" required>
+                </div>
+                <div class="input-group">
+                    <label for="product-price">Precio del Producto</label>
+                    <input type="number" id="product-price" name="product-price" autocomplete="off"
+                        placeholder="Precio del producto" required>
+                </div>
+                <div class="input-group">
+                    <label for="product-marca">Marca del Producto</label>
+                    <input type="text" id="product-marca" name="product-marca" autocomplete="off"
+                        placeholder="Marca del producto" required>
+                </div>
+                <div class="input-group">
+                    <label for="product-category">Categoría del Producto</label>
+                    <select name="category" id="product-category" required>
+                        <option value="">-- Selecciona una categoría --</option>
+                    </select>
+                </div>
+                <button id="addProductButton" type="submit">Agregar Producto</button>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="./products.ts"></script>
+</body>
+</html>

@@ -1,9 +1,14 @@
 import type { IUser } from "../types/IUser";
 import type { Rol } from "../types/Rol";
+import { getUser } from "./api";
 import { envs } from "./enviromentVariable";
 import { getUSer, removeUser } from "./localStorage";
 import { navigate } from "./navigate";
 
+
+const SRC_ADMIN_HOME = envs.SRC_ADMIN_HOME;
+const SRC_CLIENT_HOME = envs.SRC_CLIENT_HOME;
+const SRC_LOGIN = envs.SRC_LOGIN;
 export const checkAuhtUser = (
   redireccion1: string,
   redireccion2: string,
@@ -29,27 +34,50 @@ export const checkAuhtUser = (
 };
 
 const API_URL = envs.API_URL;
+export const checkAuthUser = async (idUser: string, role: Rol) => {
+  const user: IUser = await getUser(idUser);
+  if (!user) {
+    console.log("User not found");
+    navigate(SRC_LOGIN);
+  } else {
+    console.log("User found:", user);
+    if (user.role !== role) {
+      console.log("User role does not match");
+      navigate(SRC_LOGIN);
+    } else {
+      console.log("User role matches");
+      if (user.role === 'ADMIN') {
+        navigate(SRC_ADMIN_HOME);
+      } else if (user.role === 'CLIENT') {
+        navigate(SRC_CLIENT_HOME);
+      } else {
+        console.log("Rol no reconocido:", user.role);
+        navigate(SRC_LOGIN);
+      }
+    }
+  }
+};
 
 const logoutBack = async () => {
-  try{
+  try {
     const user = getUSer();
-    if(!user) return;
+    if (!user) return;
     const parseUser: IUser = JSON.parse(user);
 
-    const response = await fetch( `${API_URL}/usuario/logout`, {
+    const response = await fetch(`${API_URL}/usuario/logout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email : parseUser.email }),
+      body: JSON.stringify({ email: parseUser.email }),
     });
-    if(!response.ok){
+    if (!response.ok) {
       console.error("Error en logoutBack:", response.statusText);
-    }else{
-       navigate("/src/pages/auth/login/login.html");
+    } else {
+      navigate("/src/pages/auth/login/login.html");
       console.log("Logout en back exitoso");
     }
-  }catch(error){
+  } catch (error) {
     console.error("Error en logoutBack:", error);
   }
 }
@@ -57,5 +85,5 @@ const logoutBack = async () => {
 export const logout = async () => {
   await logoutBack();
   removeUser();
-  
+
 };

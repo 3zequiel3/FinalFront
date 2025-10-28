@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorias</title>
+</head>
+
+<body>
+    <h1 class="category-title">Administración de Categorías</h1>
+    <div class="category-list">
+        <h2>Categorías Existentes</h2>
+        <ul id="category-list-items">
+        </ul>
+    </div>
+    <div class="category-create-conteiner">
+        <div class="category-card">
+            <form id="category-form">
+                <p>Gestiona las categorías de productos aquí.</p>
+                <div class="input-group">
+                    <label for="category-name">Nombre de la Categoría</label>
+                    <input type="text" id="category-name" name="category-name" autocomplete="off"
+                        placeholder="Nombre de la categoría" required>
+                </div>
+                <button id="addCategoryButton" type="submit">Agregar Categoría</button>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="./categories.ts"></script>
+</body>
+
+</html>
