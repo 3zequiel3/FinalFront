@@ -1,5 +1,6 @@
 import type { IUser } from "../../../types/IUser";
 import type { Rol } from "../../../types/Rol";
+import { envs } from "../../../utils/enviromentVariable";
 import { navigate } from "../../../utils/navigate"; 
 
 const form = document.getElementById("form") as HTMLFormElement;
@@ -11,8 +12,13 @@ const inputConfirmPassword = document.getElementById("confirm-password") as HTML
 const passwordError = document.getElementById("password-error") as HTMLSpanElement;
 const registerError = document.getElementById("register-error") as HTMLSpanElement;
 
+
+const API_URL = envs.API_URL;
+
+const SRC_CLIENT_HOME = envs.SRC_CLIENT_HOME;
+
 // Función para verificar si las contraseñas coinciden
-const verificarPassword = () => {
+const checkPassword = () => {
   if (inputPassword.value && inputConfirmPassword.value) {
     if (inputPassword.value !== inputConfirmPassword.value) {
       inputConfirmPassword.setCustomValidity("Las contraseñas no coinciden");
@@ -29,13 +35,13 @@ const verificarPassword = () => {
 };
 
 // Escuchar cambios en ambos campos
-inputPassword.addEventListener("input", verificarPassword);
-inputConfirmPassword.addEventListener("input", verificarPassword);
+inputPassword.addEventListener("input", checkPassword);
+inputConfirmPassword.addEventListener("input", checkPassword);
 
 
 
 // Función para subir datos del nuevo usuario
-const subirDatosUsuario = async (user: IUser) => {
+const uploadUserData = async (user: IUser) => {
   try {
     // Preparar los datos con el formato que espera el backend
     const dataToSend = {
@@ -47,7 +53,7 @@ const subirDatosUsuario = async (user: IUser) => {
     
     console.log("Datos que se enviarán al servidor:", dataToSend);
     
-    const response = await fetch("http://localhost:5020/cliente", {
+    const response = await fetch(`${API_URL}/usuario`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,14 +117,14 @@ form.addEventListener("submit", async (e: SubmitEvent) => {
 
   try {
     // Subir el usuario al servidor
-    const userData = await subirDatosUsuario(user);
+    const userData = await uploadUserData(user);
     
     // Si el registro fue exitoso, guardar en localStorage
     const parseUser = JSON.stringify({ ...user, id: userData.id || 1 });
     localStorage.setItem("userData", parseUser);
     
     // Navegar a la página principal
-    navigate("/src/pages/store/home/home.html");
+    navigate(SRC_CLIENT_HOME);
     
   } catch (error) {
     // Si hubo un error, no navegar
