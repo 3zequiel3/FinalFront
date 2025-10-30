@@ -1,7 +1,7 @@
 import type { IUser, IUserLogin } from "../../../types/IUser";
 import { envs } from "../../../utils/enviromentVariable";
 import { navigate } from "../../../utils/navigate";
-import { checkAuthUser, getUserLogged, rolAuth } from "../../../utils/authLocal";
+import { getUserLogged, rolAuth } from "../../../utils/authLocal";
 
 const form = document.getElementById("form") as HTMLFormElement;
 const inputEmail = document.getElementById("email") as HTMLInputElement;
@@ -56,6 +56,15 @@ const loginBack = async (email: string, password: string) => {
     loginError.textContent = "❌ Error al conectar con el servidor";
   }
 }
+form.addEventListener("submit", async (e: SubmitEvent) => {
+  e.preventDefault();
+  const valueEmail = inputEmail.value;
+  const valuePassword = inputPassword.value;
+
+  await loginBack(valueEmail, valuePassword);
+});
+
+
 
 const userLogged = () => {
   const user: IUserLogin = getUserLogged();
@@ -67,13 +76,6 @@ const userLogged = () => {
   }
 }
 
-form.addEventListener("submit", async (e: SubmitEvent) => {
-  e.preventDefault();
-  const valueEmail = inputEmail.value;
-  const valuePassword = inputPassword.value;
-
-  await loginBack(valueEmail, valuePassword);
-});
 
 console.log("login");
 
@@ -84,16 +86,4 @@ const initPage = () => {
 }
 
 initPage();
-
-const getData = async () => {
-  const response = await fetch(`${API_URL}/usuario`, {
-    method: "GET",
-  });
-  const data = await response.json();
-  console.log(data);
-};
-
-
-getData();
-
 

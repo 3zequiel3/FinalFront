@@ -9,29 +9,29 @@ import { navigate } from "./navigate";
 const SRC_ADMIN_HOME = envs.SRC_ADMIN_HOME;
 const SRC_CLIENT_HOME = envs.SRC_CLIENT_HOME;
 const SRC_LOGIN = envs.SRC_LOGIN;
-export const checkAuhtUser = (
-  redireccion1: string,
-  redireccion2: string,
-  rol: Rol
-) => {
-  console.log("comienzo de checkeo");
+// export const checkAuhtUser = (
+//   redireccion1: string,
+//   redireccion2: string,
+//   rol: Rol
+// ) => {
+//   console.log("comienzo de checkeo");
 
-  const user = getUSer();
+//   const user = getUSer();
 
-  if (!user) {
-    console.log("no existe en local");
-    navigate(redireccion1);
-    return;
-  } else {
-    console.log("existe pero no tiene el rol necesario");
+//   if (!user) {
+//     console.log("no existe en local");
+//     navigate(redireccion1);
+//     return;
+//   } else {
+//     console.log("existe pero no tiene el rol necesario");
 
-    const parseUser: IUser = JSON.parse(user);
-    if (parseUser.role !== rol) {
-      navigate(redireccion2);
-      return;
-    }
-  }
-};
+//     const parseUser: IUser = JSON.parse(user);
+//     if (parseUser.role !== rol) {
+//       navigate(redireccion2);
+//       return;
+//     }
+//   }
+// };
 
 const API_URL = envs.API_URL;
 
@@ -73,7 +73,7 @@ const logoutBack = async () => {
   try {
     const user = getUSer();
     if (!user) return;
-    const parseUser: IUser = JSON.parse(user);
+    const parseUser: IUserLogin = JSON.parse(user);
 
     const response = await fetch(`${API_URL}/usuario/logout`, {
       method: "POST",
@@ -85,7 +85,7 @@ const logoutBack = async () => {
     if (!response.ok) {
       console.error("Error en logoutBack:", response.statusText);
     } else {
-      navigate("/src/pages/auth/login/login.html");
+      navigate(SRC_LOGIN);
       console.log("Logout en back exitoso");
     }
   } catch (error) {
@@ -103,5 +103,4 @@ export const getUserLogged = (): IUserLogin => {
 export const logout = async () => {
   await logoutBack();
   removeUser();
-
 };
