@@ -1,4 +1,4 @@
-import type { IUser } from "../types/IUser";
+import type { IUser, IUserLogin } from "../types/IUser";
 import type { Rol } from "../types/Rol";
 import { getUser } from "./api";
 import { envs } from "./enviromentVariable";
@@ -35,26 +35,37 @@ export const checkAuhtUser = (
 
 const API_URL = envs.API_URL;
 
-export const checkAuthUser = async () => {
+export const checkAuthUser = async (rolEsperado?: Rol) => {
+  console.log("comienzo de checkeo");
   const user: IUser = await getUser();
-  const role = user.role as Rol;
   if (!user) {
     console.log("No hay usuario autenticado");
     navigate(SRC_LOGIN);
-  } else {
-    console.log("Usuario en el sistema:", user);
-    rolAuth(role);
+    return;
   }
+
+  const role = (user.role ?? "") as Rol;
+  if(rolEsperado){
+    if(role !== rolEsperado){
+      rolAuth(role);
+      return;
+    }
+    return;
+  }
+  rolAuth(role);
 };
 
 
-const rolAuth = (role: Rol)=>{
+export const rolAuth = (role: Rol)=>{
   if(role === 'ADMIN'){
     navigate(SRC_ADMIN_HOME);
+    return;
   }else if(role === 'CLIENT'){
     navigate(SRC_CLIENT_HOME);
+    return;
   }else{
     navigate(SRC_LOGIN);
+    return;
   }
 }
 
@@ -82,9 +93,12 @@ const logoutBack = async () => {
   }
 }
 
-const status = async () => {
-  console.log("Verificando estado de autenticación en el backend...");
-}
+export const getUserLogged = (): IUserLogin => {
+  const user = localStorage.getItem("userData");
+  if (!user) throw new Error("No user logged in");
+  const parsedUser: IUserLogin = JSON.parse(user);
+  return parsedUser;
+};
 
 export const logout = async () => {
   await logoutBack();

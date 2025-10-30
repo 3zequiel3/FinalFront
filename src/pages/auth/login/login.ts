@@ -1,6 +1,7 @@
 import type { IUser, IUserLogin } from "../../../types/IUser";
 import { envs } from "../../../utils/enviromentVariable";
 import { navigate } from "../../../utils/navigate";
+import { checkAuthUser, getUserLogged, rolAuth } from "../../../utils/authLocal";
 
 const form = document.getElementById("form") as HTMLFormElement;
 const inputEmail = document.getElementById("email") as HTMLInputElement;
@@ -31,6 +32,7 @@ const loginBack = async (email: string, password: string) => {
         id: data.id,
         email: data.email,
         role: data.role,
+        loggedIn: data.loggedIn,
       };
 
       localStorage.setItem("userData", JSON.stringify(userLogin));
@@ -55,6 +57,16 @@ const loginBack = async (email: string, password: string) => {
   }
 }
 
+const userLogged = () => {
+  const user: IUserLogin = getUserLogged();
+  const parseUser = JSON.parse(JSON.stringify(user));
+  if(parseUser.loggedIn){
+    rolAuth(parseUser.role);
+  }else{
+    return;
+  }
+}
+
 form.addEventListener("submit", async (e: SubmitEvent) => {
   e.preventDefault();
   const valueEmail = inputEmail.value;
@@ -66,7 +78,12 @@ form.addEventListener("submit", async (e: SubmitEvent) => {
 console.log("login");
 
 
+const initPage = () => {
+  console.log("inicio de pagina login");
+  userLogged();
+}
 
+initPage();
 
 const getData = async () => {
   const response = await fetch(`${API_URL}/usuario`, {

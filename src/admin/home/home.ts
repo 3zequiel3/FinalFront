@@ -1,5 +1,5 @@
 
-import { checkAuhtUser, checkAuthUser, logout } from "../../../utils/authLocal";
+import { checkAuhtUser, checkAuthUser, logout } from "../../utils/authLocal";
 
 
 const buttonLogout = document.getElementById(
@@ -17,6 +17,6 @@ const initPage = () => {
   //   "/src/pages/store/home/home.html",
   //   "ADMIN"
   // );
-  checkAuthUser();
+  checkAuthUser('ADMIN');
 };
 initPage();

@@ -1,4 +1,4 @@
-import type { IUser } from "../../../types/IUser";
+import type { IUser, IUserLogin } from "../../../types/IUser";
 import type { Rol } from "../../../types/Rol";
 import { envs } from "../../../utils/enviromentVariable";
 import { navigate } from "../../../utils/navigate"; 
@@ -119,8 +119,15 @@ form.addEventListener("submit", async (e: SubmitEvent) => {
     // Subir el usuario al servidor
     const userData = await uploadUserData(user);
     
+    const userLogin: IUserLogin = {
+      id: userData.id,
+      email: user.email,
+      role: user.role,
+      loggedIn: user.loggedIn,
+    };
+
     // Si el registro fue exitoso, guardar en localStorage
-    const parseUser = JSON.stringify({ ...user, id: userData.id || 1 });
+    const parseUser = JSON.stringify(userLogin);
     localStorage.setItem("userData", parseUser);
     
     // Navegar a la página principal

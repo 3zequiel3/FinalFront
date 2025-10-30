@@ -19,7 +19,7 @@ const initPage = () => {
   //   "CLIENT"
   // );
 
-  checkAuthUser();
+  checkAuthUser('CLIENT');
 };
 
 initPage();
