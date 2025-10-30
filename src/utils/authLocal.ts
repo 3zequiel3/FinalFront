@@ -82,6 +82,10 @@ const logoutBack = async () => {
   }
 }
 
+const status = async () => {
+  console.log("Verificando estado de autenticación en el backend...");
+}
+
 export const logout = async () => {
   await logoutBack();
   removeUser();
