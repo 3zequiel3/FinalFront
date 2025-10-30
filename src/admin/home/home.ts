@@ -1,4 +1,6 @@
-import { checkAuhtUser, checkAuthUser, logout } from "../../utils/authLocal";
+
+import { checkAuhtUser, checkAuthUser, logout } from "../../../utils/authLocal";
+
 
 const buttonLogout = document.getElementById(
   "logoutButton"
