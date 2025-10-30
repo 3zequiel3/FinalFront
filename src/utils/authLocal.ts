@@ -34,29 +34,29 @@ export const checkAuhtUser = (
 };
 
 const API_URL = envs.API_URL;
-export const checkAuthUser = async (idUser: string, role: Rol) => {
-  const user: IUser = await getUser(idUser);
+
+export const checkAuthUser = async () => {
+  const user: IUser = await getUser();
+  const role = user.role as Rol;
   if (!user) {
-    console.log("User not found");
+    console.log("No hay usuario autenticado");
     navigate(SRC_LOGIN);
   } else {
-    console.log("User found:", user);
-    if (user.role !== role) {
-      console.log("User role does not match");
-      navigate(SRC_LOGIN);
-    } else {
-      console.log("User role matches");
-      if (user.role === 'ADMIN') {
-        navigate(SRC_ADMIN_HOME);
-      } else if (user.role === 'CLIENT') {
-        navigate(SRC_CLIENT_HOME);
-      } else {
-        console.log("Rol no reconocido:", user.role);
-        navigate(SRC_LOGIN);
-      }
-    }
+    console.log("Usuario en el sistema:", user);
+    rolAuth(role);
   }
 };
+
+
+const rolAuth = (role: Rol)=>{
+  if(role === 'ADMIN'){
+    navigate(SRC_ADMIN_HOME);
+  }else if(role === 'CLIENT'){
+    navigate(SRC_CLIENT_HOME);
+  }else{
+    navigate(SRC_LOGIN);
+  }
+}
 
 const logoutBack = async () => {
   try {

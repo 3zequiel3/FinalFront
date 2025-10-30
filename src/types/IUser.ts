@@ -8,3 +8,10 @@ export interface IUser {
   role: Rol;
   id?: number;
 }
+
+
+export interface IUserLogin {
+  id?: number;
+  email: string;
+  role: Rol;
+}

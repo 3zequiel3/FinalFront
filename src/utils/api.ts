@@ -15,8 +15,17 @@ export async function getUsers() {
     }
 }
 
-export async function getUser(id: string) {
+export async function getUser() {
     try {
+        const userData = localStorage.getItem("userData");
+        if (!userData) {
+            throw new Error("No user data in localStorage");
+        }
+        const parsedUser = JSON.parse(userData);
+        const id = parsedUser.id;
+        if (!id) {
+            throw new Error("User ID is missing");
+        }
         const response = await fetch(`${API_URL}/usuario/${id}`);
         if (!response.ok) {
             throw new Error(`Error fetching user: ${response.statusText}`);

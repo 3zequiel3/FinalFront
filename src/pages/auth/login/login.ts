@@ -1,4 +1,4 @@
-import type { IUser } from "../../../types/IUser";
+import type { IUser, IUserLogin } from "../../../types/IUser";
 import { envs } from "../../../utils/enviromentVariable";
 import { navigate } from "../../../utils/navigate";
 
@@ -26,21 +26,26 @@ const loginBack = async (email: string, password: string) => {
     });
     if (response.ok) {
       const data: IUser = await response.json();
-      localStorage.setItem("userData", JSON.stringify(data));
-      console.log("Autenticación exitosa:", data);
+
+      const userLogin: IUserLogin = {
+        id: data.id,
+        email: data.email,
+        role: data.role,
+      };
+
+      localStorage.setItem("userData", JSON.stringify(userLogin));
+      console.log("Autenticación exitosa:", userLogin);
 
       // Redirigir según el rol que devuelve el backend
-      if (data.role === "ADMIN") {
+      if (userLogin.role === "ADMIN") {
         navigate(SRC_ADMIN_HOME);
-      } else if (data.role === "CLIENT") {
+      } else if (userLogin.role === "CLIENT") {
         navigate(SRC_CLIENT_HOME);
       } else {
-        console.error("Rol no reconocido:", data.role);
+        console.error("Rol no reconocido:", userLogin.role);
         loginError.textContent = "❌ Rol de usuario no válido";
       }
     } else {
-      // Error 400 o 401 = credenciales incorrectas
-      console.error("Error en la autenticación:", response.statusText);
       loginError.textContent = "❌ Email o contraseña incorrectos";
     }
   } catch (error) {

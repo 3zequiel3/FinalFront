@@ -1,4 +1,4 @@
-import { checkAuhtUser, logout } from "../../../utils/authLocal";
+import { checkAuhtUser, checkAuthUser, logout } from "../../../utils/authLocal";
 
 const buttonLogout = document.getElementById(
   "logoutButton"
@@ -10,11 +10,13 @@ buttonLogout?.addEventListener("click", () => {
 
 const initPage = () => {
   console.log("inicio de pagina");
-  checkAuhtUser(
-    "/src/pages/auth/login/login.html",
-    "/src/admin/home/home.html",
-    "CLIENT"
-  );
+  // checkAuhtUser(
+  //   "/src/pages/auth/login/login.html",
+  //   "/src/admin/home/home.html",
+  //   "CLIENT"
+  // );
+
+  checkAuthUser();
 };
 
 initPage();
