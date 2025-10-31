@@ -1,3 +1,7 @@
+import { envs } from "../../../utils/enviromentVariable.ts";
+
+const API_URL = envs.API_URL;
+
 // ---------------------------------------Menú hamburguesa responsivo ------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
   const burger = document.getElementById('navbar-burger');
@@ -29,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Make sure the path is correct; adjust if necessary, for example:
 import {checkAuthUser, logout } from "../../../utils/authLocal.ts";
+
 // If the file is actually named "authLocal.ts" and is in a different folder, update the path accordingly, e.g.:
 // import { checkAuhtUser, checkAuthUser, logout } from "../../utils/authLocal";
 
@@ -50,4 +55,44 @@ const initPage = () => {
   checkAuthUser('CLIENT');
 };
 
+
+
+
+
+
+
+
+
+
+
 initPage();
+
+
+
+
+const categoryList = document.getElementById('category-list') as HTMLUListElement;
+
+const getCategories = async () => {
+    try {
+        const response = await fetch(`${API_URL}/categorias`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.statusText}`);
+        }
+
+        const categories = await response.json();
+        console.log("Categorías obtenidas:", categories);
+        return categories;
+    } catch (error) {
+        console.error("Error al obtener las categorías:", error);
+        throw error;
+    }
+}
+
+
+getCategories()
