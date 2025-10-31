@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Make sure the path is correct; adjust if necessary, for example:
 import {checkAuthUser, logout } from "../../../utils/authLocal.ts";
+import type { ICategory } from "../../../types/ICategory.ts";
 
 // If the file is actually named "authLocal.ts" and is in a different folder, update the path accordingly, e.g.:
 // import { checkAuhtUser, checkAuthUser, logout } from "../../utils/authLocal";
@@ -96,3 +97,37 @@ const getCategories = async () => {
 
 
 getCategories()
+
+
+const displayCategories = async () => {
+    try {
+        const categories = await getCategories();
+        categoryList.innerHTML = "";
+
+        categories.forEach((category: ICategory) => {
+            const listItem = document.createElement("li");
+
+            const link = document.createElement("a");
+            link.href = "#";
+
+            const spanIcon = document.createElement("span");
+            spanIcon.classList.add("dropdown-icon");
+
+            const icon = document.createElement("i");
+            icon.classList.add("bi", "bi-list-ul"); // Cambia "bi-cup" por el ícono que prefieras
+            spanIcon.appendChild(icon);
+            const pText = document.createElement("p");
+            pText.classList.add("dropdown-icon-p");
+            pText.textContent = category.nombre;
+
+            link.appendChild(spanIcon);
+            link.appendChild(pText);
+            listItem.appendChild(link);
+
+            categoryList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error("Error al mostrar las categorías:", error);
+    }
+}
+displayCategories();
