@@ -1,4 +1,5 @@
 import { envs } from "../../../utils/enviromentVariable.ts";
+import { getUserLoggedName } from "../../../utils/authLocal.ts";
 
 const API_URL = envs.API_URL;
 
@@ -57,9 +58,24 @@ const initPage = () => {
 };
 
 
+const buttonLogoutDesktop = document.getElementById(
+  "logoutButtonDesktop"
+) as HTMLButtonElement;
+
+buttonLogoutDesktop?.addEventListener("click", () => {
+  logout();
+});
 
 
+const userNameElement = document.querySelector('.navbar-user') as HTMLLIElement;
 
+
+const displayUserName = () => {
+  const name = getUserLoggedName();
+  console.log("Nombre de usuario obtenido:", name);
+  userNameElement.textContent = name;
+};
+displayUserName();
 
 
 

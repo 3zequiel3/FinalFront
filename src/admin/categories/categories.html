@@ -4,26 +4,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./categories.css">
+    <link rel="stylesheet" href="../../sidebar_navbar.css">
     <title>Categorias</title>
 </head>
 
-<body>
-    <h1 class="category-title">Administración de Categorías</h1>
-    <div class="category-list">
-        <h2>Categorías Existentes</h2>
-        <ul id="category-list-items">
+<body id="body">
+    <nav class="navbar">
+        <button class="navbar-burger" id="navbar-burger" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+        </button>
+        <!-- Título e ícono solo visible en mobile -->
+        <div class="navbar-title-mobile">
+            <span class="navbar-logo">🍕 <span class="navbar-brand">FoodStore</span></span>
+        </div>
+        <ul class="navbar-links" id="navbar-links">
+            <li><a href="#">Tienda</a></li>
+            <li><a href="#">Panel Admin</a></li>
+            <li class="navbar-user"></li>
+            <!-- Dropdown mobile -->
+            <li class="navbar-dropdown-mobile">
+                <button class="dropdown-toggle" aria-expanded="false">Administracion ▼</button>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><span class="dropdown-icon">📊</span>
+                            Dashboard
+                        </a></li>
+                    <li><a href="../categories/categories.html"><span class="dropdown-icon">📁</span>
+                            Categorias
+                        </a></li>
+                    <li><a href="../products/products.html"><span class="dropdown-icon">🍔</span>
+                            Productos
+                        </a></li>
+                    <li><a href="#"><span class="dropdown-icon">📦</span>
+                            Pedidos
+                        </a></li>
+                    <li><a href="#"><span class="dropdown-icon">🏪</span>
+                            Ver Tienda
+                        </a></li>
+                </ul>
+            </li>
+            <li class="navbar-logout-mobile"><button id="logoutButton" class="navbar-logout">Cerrar Sesión</button></li>
+            <li class="navbar-logout-desktop"><button id="logoutButtonDesktop" class="navbar-logout">Cerrar
+                    Sesión</button></li>
         </ul>
+    </nav>
+    <aside class="sidebar-categorias">
+        <div class="sidebar-categorias__title">Administración</div>
+        <div class="sidebar-categorias__subtitle">Panel de Control</div>
+        <ul>
+            <li><a href="#"><span class="dropdown-icon">📊</span>
+                    <p class="dropdown-icon-p">Dashboard</p>
+                </a></li>
+            <li><a href="../categories/categories.html"><span class="dropdown-icon">📁</span>
+                    <p class="dropdown-icon-p">Categorias</p>
+                </a></li>
+            <li><a href="../products/products.html"><span class="dropdown-icon">🍔</span>
+                    <p class="dropdown-icon-p">Productos</p>
+                </a></li>
+            <li><a href="#"><span class="dropdown-icon">📦</span>
+                    <p class="dropdown-icon-p">Pedidos</p>
+                </a></li>
+            <hr>
+            <li><a href="#"><span class="dropdown-icon">🏪</span>
+                    <p class="dropdown-icon-p">Ver Tienda</p>
+                </a></li>
+
+        </ul>
+    </aside>
+    <div class="category-container">
+        <div class="category-config">
+            <h1>Gestión de Categorías</h1>
+            <button id="add-category-btn" class="btn btn-primary">Agregar Categoría</button>
+        </div>
+
+        <div class="category-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="category-table-body">
+                    <!-- Las categorías se cargarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="category-create-conteiner">
-        <div class="category-card">
+
+    <div class="modal-create" id="modal-create">
+        <div class="modal-content-create">
+            <span class="close-create" id="close-create">&times;</span>
+            <h2>Nueva Categoría</h2>
             <form id="category-form">
-                <p>Gestiona las categorías de productos aquí.</p>
-                <div class="input-group">
-                    <label for="category-name">Nombre de la Categoría</label>
-                    <input type="text" id="category-name" name="category-name" autocomplete="off"
-                        placeholder="Nombre de la categoría" required>
-                </div>
-                <button id="addCategoryButton" type="submit">Agregar Categoría</button>
+                <label for="category-name">Nombre</label>
+                <input type="text" id="category-name" name="category-name" required>
+
+                <label for="category-description">Descripción</label>
+                <textarea id="category-description" name="category-description" required></textarea>
+
+                <button type="submit" class="btn-modal-create">Guardar</button>
             </form>
         </div>
     </div>

@@ -121,6 +121,7 @@ form.addEventListener("submit", async (e: SubmitEvent) => {
     
     const userLogin: IUserLogin = {
       id: userData.id,
+      name: userData.name ?? "",
       email: user.email,
       role: user.role,
       loggedIn: user.loggedIn,

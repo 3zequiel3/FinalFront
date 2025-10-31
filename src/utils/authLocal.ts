@@ -100,6 +100,11 @@ export const getUserLogged = (): IUserLogin => {
   return parsedUser;
 };
 
+export const getUserLoggedName = (): string => {
+  const user = getUserLogged();
+  return user.name;
+}
+
 export const logout = async () => {
   await logoutBack();
   removeUser();

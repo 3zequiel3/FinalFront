@@ -1,0 +1,220 @@
+:root {
+    --primary-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --text-color: #f0f0f0;
+    --background-color: #121212;
+    --card-background: #1e1e1e;
+    --button-background: #ff00ff;
+    --button-hover-background: #d900d9;
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Estilos del Cuerpo de la Página --- */
+body {
+    margin: 0;
+    font-family: var(--primary-font);
+    background-color: var(--background-color);
+    /* fondo claro */
+    color: var(--text-color);
+    /* texto oscuro */
+    min-height: 100vh;
+    text-align: left;
+    /* Elimina el centrado vertical */
+    display: block;
+}
+
+
+/* Modal fondo */
+.modal-create {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgba(18, 18, 18, 0.7);
+    /* var(--background-color) con opacidad */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal contenido */
+.modal-content-create {
+    background: var(--card-background);
+    margin: auto;
+    border-radius: 15px;
+    padding: 2rem 2.5rem;
+    max-width: 400px;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.close-create {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    color: #bbb;
+    cursor: pointer;
+}
+
+.modal-content-create h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.modal-content-create label {
+    font-size: 1rem;
+    color: #bbb;
+    margin-bottom: 0.2rem;
+    text-align: left;
+}
+
+.modal-content-create input,
+.modal-content-create textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: 8px;
+    border: 1px solid #2c2c2c;
+    background: #181818;
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    resize: none;
+}
+
+.btn-modal-create {
+    background: var(--button-background);
+    border: none;
+    border-radius: 8px;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 0.5rem;
+}
+
+.btn-modal-create:hover {
+    background-color: var(--button-hover-background);
+    transform: translateY(-2px);
+}
+
+/* Tabla principal */
+.category-container {
+    min-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.category-config {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.category-list {
+    display: block;
+    width: 100%;
+}
+
+.category-list table {
+    width: 90%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--card-background);
+    border-radius: 15px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+/* Encabezado de la tabla */
+.category-list thead tr {
+    background: var(--button-background);
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.category-list th {
+    padding: 1rem 0.7rem;
+    text-align: left;
+    border: none;
+}
+
+/* Filas de la tabla */
+.category-list td {
+    padding: 0.8rem 0.7rem;
+    border: none;
+    color: var(--text-color);
+    background: #2c2c2c;
+    font-size: 1rem;
+}
+
+/* Primera columna (ID) centrada */
+.category-list td:first-child {
+    text-align: center;
+}
+
+/* Acciones */
+.category-list .btn {
+    padding: 0.4rem 1.1rem;
+    border-radius: 7px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.category-list .btn-edit {
+    background: #e0e4e7;
+    color: #222;
+}
+
+.category-list .btn-edit:hover {
+    background: #bfc3c7;
+}
+
+.category-list .btn-delete {
+    background: #d90036;
+    color: #fff;
+}
+
+.category-list .btn-delete:hover {
+    background: #a80027;
+}
+
+/* Sombra y borde redondeado para la tabla */
+.category-list table {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .category-list table {
+        width: 100%;
+        font-size: 0.95rem;
+    }
+
+    .category-list th,
+    .category-list td {
+        padding: 0.6rem 0.3rem;
+    }
+}

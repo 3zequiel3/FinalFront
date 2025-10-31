@@ -1,7 +1,7 @@
 import type { IUser, IUserLogin } from "../../../types/IUser";
 import { envs } from "../../../utils/enviromentVariable";
 import { navigate } from "../../../utils/navigate";
-import { getUserLogged, rolAuth } from "../../../utils/authLocal";
+import { rolAuth } from "../../../utils/authLocal";
 
 const form = document.getElementById("form") as HTMLFormElement;
 const inputEmail = document.getElementById("email") as HTMLInputElement;
@@ -34,6 +34,7 @@ const loginBack = async (email: string, password: string) => {
 
       const userLogin: IUserLogin = {
         id: data.id,
+        name: data.name ?? "",
         email: data.email,
         role: data.role,
         loggedIn: data.loggedIn,
@@ -109,7 +110,7 @@ const initPage = () => {
 
   // traer usuarios de la base de datos para pruebas
   fetchUsers();
-  
+
 
   // verificar si el usuario está logueado
   userLogged();

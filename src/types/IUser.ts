@@ -12,6 +12,7 @@ export interface IUser {
 
 export interface IUserLogin {
   id?: number;
+  name: string;
   email: string;
   role: Rol;
   loggedIn: boolean;
