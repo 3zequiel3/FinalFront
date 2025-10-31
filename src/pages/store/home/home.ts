@@ -1,4 +1,4 @@
-// Menú hamburguesa responsivo
+// ---------------------------------------Menú hamburguesa responsivo ------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
   const burger = document.getElementById('navbar-burger');
   const links = document.getElementById('navbar-links');
@@ -8,7 +8,25 @@ document.addEventListener('DOMContentLoaded', function() {
       burger.classList.toggle('open');
     });
   }
+
+  // Dropdown mobile
+  const dropdown = document.querySelector('.navbar-dropdown-mobile');
+  const dropdownToggle = dropdown?.querySelector('.dropdown-toggle') as HTMLButtonElement;
+
+  if (dropdown && dropdownToggle) {
+    dropdownToggle.addEventListener('click', function () {
+      const isOpen = dropdown.classList.toggle('open');
+      dropdownToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  }
 });
+
+
+// --------------------------------------- Fin menú hamburguesa responsivo ------------------------------------------------------------------------
+
+
+
+
 // Make sure the path is correct; adjust if necessary, for example:
 import {checkAuthUser, logout } from "../../../utils/authLocal.ts";
 // If the file is actually named "authLocal.ts" and is in a different folder, update the path accordingly, e.g.:
@@ -20,7 +38,6 @@ const buttonLogout = document.getElementById(
 buttonLogout?.addEventListener("click", () => {
   logout();
 });
-
 
 const initPage = () => {
   console.log("inicio de pagina");
