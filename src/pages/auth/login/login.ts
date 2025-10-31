@@ -26,7 +26,11 @@ const loginBack = async (email: string, password: string) => {
       body: JSON.stringify({ email, pass: password }),
     });
     if (response.ok) {
-      const data: IUser = await response.json();
+      // Mostrar la respuesta cruda del backend
+      const raw = await response.clone().json();
+      console.log("Respuesta cruda del backend (login):", raw);
+
+      const data: IUser = raw;
 
       const userLogin: IUserLogin = {
         id: data.id,
@@ -67,21 +71,47 @@ form.addEventListener("submit", async (e: SubmitEvent) => {
 
 
 const userLogged = () => {
-  const user: IUserLogin = getUserLogged();
-  const parseUser = JSON.parse(JSON.stringify(user));
-  if(parseUser.loggedIn){
-    rolAuth(parseUser.role);
-  }else{
+  const userStr = localStorage.getItem("userData");
+  if (!userStr) {
+    // No hay usuario logueado, no hacer nada
     return;
+  }
+  try {
+    const user: IUserLogin = JSON.parse(userStr);
+    if (user.loggedIn) {
+      rolAuth(user.role);
+    }
+  } catch (error) {
+    console.error("Error al leer usuario logueado:", error);
   }
 }
 
+
+
+// traer usuarios de la base de datos para pruebas
+const fetchUsers = async () => {
+  try {
+    const response = await fetch(`${API_URL}/usuario`);
+    if (!response.ok) {
+      throw new Error(`Error fetching users: ${response.statusText}`);
+    }
+    const users = await response.json();
+    console.log("Usuarios:", users);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+  }
+};
 
 console.log("login");
 
 
 const initPage = () => {
-  console.log("inicio de pagina login");
+
+  // traer usuarios de la base de datos para pruebas
+  fetchUsers();
+  
+
+  // verificar si el usuario está logueado
   userLogged();
 }
 

@@ -8,12 +8,31 @@
     <link rel="stylesheet" href="./style_client_home.css">
 </head>
 
-<body>
+<body id="body">
+    <nav class="navbar">
+        <div class="navbar-left">
+            <span class="navbar-logo">🍕 <span class="navbar-brand">Food Store</span></span>
+        </div>
+        <button class="navbar-burger" id="navbar-burger" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="navbar-links" id="navbar-links">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Mis Pedidos</a></li>
+            <li><a href="#">Administración</a></li>
+            <li class="navbar-cart">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-badge">0</span>
+                <span>Carrito</span>
+            </li>
+            <li class="navbar-user">Juan Pérez</li>
+            <li class="navbar-logout-mobile"><button id="logoutButton" class="navbar-logout">Cerrar Sesión</button></li>
+        </ul>
+    </nav>
     <div class="client-container">
         <div class="client-card">
             <h1 class="client-title">Panel de Cliente</h1>
             <p>Hola, bienvenido a tu panel.</p>
-            <button id="logoutButton">Cerrar Sesión</button>
         </div>
     </div>
     <script type="module" src="./home.ts"></script>
