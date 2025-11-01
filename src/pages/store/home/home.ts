@@ -1,3 +1,11 @@
+
+import { envs } from "../../../utils/enviromentVariable.ts";
+import { getUserLoggedName } from "../../../utils/authLocal.ts";
+
+const API_URL = envs.API_URL;
+
+// ---------------------------------------funcionalidad de sidebar de categorias-------------------------------
+
 // --- Sidebar desplegable ---
 const sidebar = document.getElementById('sidebar-categorias');
 const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -42,10 +50,6 @@ if (sidebar && sidebarToggle && contenedorContenido) {
   // Inicializar icono correcto al cargar
   updateSidebarToggleIcon();
 }
-import { envs } from "../../../utils/enviromentVariable.ts";
-import { getUserLoggedName } from "../../../utils/authLocal.ts";
-
-const API_URL = envs.API_URL;
 
 // ---------------------------------------Menú hamburguesa responsivo ------------------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', function() {

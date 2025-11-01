@@ -11,6 +11,17 @@
 </head>
 
 <body id="body">
+
+
+        <!-- Botón para mostrar/ocultar sidebar (solo desktop) -->
+    <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Mostrar/Ocultar categorías" tabindex="0">
+        <span id="sidebar-toggle-icon-hamburguesa"><i class="bi bi-list"></i></span>
+        <span id="sidebar-toggle-icon-x" style="display:none;"><i class="bi bi-x-lg"></i></span>
+    </button>
+
+
+
+
     <nav class="navbar">
         <button class="navbar-burger" id="navbar-burger" aria-label="Abrir menú">
             <span></span><span></span><span></span>
@@ -49,7 +60,7 @@
                     Sesión</button></li>
         </ul>
     </nav>
-    <aside class="sidebar-categorias">
+    <aside class="sidebar-categorias" id="sidebar-categorias">
         <div class="sidebar-categorias__title">Administración</div>
         <div class="sidebar-categorias__subtitle">Panel de Control</div>
         <ul>
@@ -72,13 +83,58 @@
 
         </ul>
     </aside>
-    <div class="admin-container">
-        <div class="admin-card">
-            <h1 class="admin-title">Panel de Administrador</h1>
-            <p>Hola, bienvenido a la vista de administrador.</p>
-            <button id="logoutButton">Cerrar Sesión</button>
+
+
+
+
+
+    <!--contenido de la pagina-->
+
+
+
+        <div class="contenedor-contenido-pagina">
+            
+            <h1 class="admin-title" style="text-align:left; margin-left:2.5rem; margin-top:1.5rem;">Panel de Administración</h1>
+            <div class="admin-summary-cards">
+                <div class="admin-summary-card admin-summary-card--cat">
+                    <div class="admin-summary-card__icon"><span>📁</span></div>
+                    <div class="admin-summary-card__title">Categorías</div>
+                    <div class="admin-summary-card__count" id="admin-cant-categorias">0</div>
+                    <button class="admin-summary-card__btn">Gestionar</button>
+                </div>
+                <div class="admin-summary-card admin-summary-card--prod">
+                    <div class="admin-summary-card__icon"><span>🍔</span></div>
+                    <div class="admin-summary-card__title">Productos</div>
+                    <div class="admin-summary-card__count" id="admin-cant-productos">0</div>
+                    <button class="admin-summary-card__btn">Gestionar</button>
+                </div>
+                <div class="admin-summary-card admin-summary-card--ped">
+                    <div class="admin-summary-card__icon"><span>📦</span></div>
+                    <div class="admin-summary-card__title">Pedidos</div>
+                    <div class="admin-summary-card__count" id="admin-cant-pedidos">0</div>
+                    <button class="admin-summary-card__btn">Gestionar</button>
+                </div>
+                <div class="admin-summary-card admin-summary-card--ok">
+                    <div class="admin-summary-card__icon"><span>✅</span></div>
+                    <div class="admin-summary-card__title">Disponibles</div>
+                    <div class="admin-summary-card__count" id="admin-cant-disponibles">0</div>
+                    <div class="admin-summary-card__desc">Productos activos</div>
+                </div>
+            </div>
+            <div class="admin-summary-quick">
+                <div class="admin-summary-quick__title"><span style="font-size:1.5rem;">📊</span> <span style="color:#ff4a4a;font-weight:700;">Resumen Rápido</span></div>
+                <div class="admin-summary-quick__body">Cargando estadísticas...</div>
+            </div>
         </div>
-    </div>
+
+
+
+    <!--fin del contenido de la pagina-->
+
+
+
+
+
     <script type="module" src="./home.ts"></script>
 </body>
 

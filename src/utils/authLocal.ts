@@ -85,7 +85,6 @@ const logoutBack = async () => {
     if (!response.ok) {
       console.error("Error en logoutBack:", response.statusText);
     } else {
-      navigate(SRC_LOGIN);
       console.log("Logout en back exitoso");
     }
   } catch (error) {
@@ -108,4 +107,5 @@ export const getUserLoggedName = (): string => {
 export const logout = async () => {
   await logoutBack();
   removeUser();
+  navigate(SRC_LOGIN);
 };

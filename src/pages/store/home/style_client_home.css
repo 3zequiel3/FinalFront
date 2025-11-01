@@ -11,6 +11,12 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    margin-left: 5rem;
+}
+@media (max-width: 900px) {
+    .modal-producto__img-wrap {
+        margin-left: 0;
+    }
 }
 .modal-producto__img {
     width: 100%;
@@ -389,7 +395,6 @@ body {
 .client-card p {
     font-size: 1.1rem;
     color: #bbb;
-    margin-bottom: 2rem;
 }
 
 /* --- Botón de Logout --- */
@@ -562,6 +567,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+    justify-content: space-between;
+    height: 100%;
 }
 .food-card__category {
     display: inline-block;
@@ -583,8 +590,11 @@ body {
 .food-card__desc {
     font-size: 1.01rem;
     color: #bdbdd7;
-    margin: 0 0 0.5rem 0;
     font-weight: 400;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 .food-card__footer {
     display: flex;

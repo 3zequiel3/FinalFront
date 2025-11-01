@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -102,10 +101,7 @@
 
 
 
-        <!-- aca va el menu de busqueda -->
 
-
-        <!-- fin menu de busqueda -->
 
         <div class="client-container">
             <div class="client-card">
@@ -114,37 +110,41 @@
 
 
                     <!-- Las tarjetas de comida se generan dinámicamente aquí -->
-                    
+
                 </div>
-                        <!-- Modal para producto -->
+                <!-- Modal para producto -->
                 <div id="modal-producto" class="modal-producto" style="display:none;">
-                                        <div class="modal-producto__overlay"></div>
-                                        <div class="modal-producto__content modal-producto__content--2col">
-                                                <button class="modal-producto__close" id="modal-producto-close">&times;</button>
-                                                <div class="modal-producto__img-wrap">
-                                                    <img id="modal-producto-img" class="modal-producto__img" src="" alt="Producto" />
-                                                </div>
-                                                <div class="modal-producto__info">
-                                                    <h2 id="modal-producto-nombre" class="modal-producto__nombre"></h2>
-                                                    <span id="modal-producto-precio" class="modal-producto__precio"></span>
-                                                    <span id="modal-producto-estado" class="modal-producto__estado food-card__status food-card__status--ok">Disponible</span>
-                                                    <p id="modal-producto-marca" class="modal-producto__marca"></p>
-                                                    <span id="modal-producto-categoria" class="modal-producto__categoria"></span>
-                                                    <div class="modal-producto__desc" id="modal-producto-desc"></div>
-                                                    <div class="modal-producto__cantidad">
-                                                        <label for="modal-cantidad-input"><b>Cantidad:</b></label>
-                                                        <div class="modal-cantidad-group">
-                                                            <button id="modal-cantidad-resta" class="modal-cantidad-btn" type="button">-</button>
-                                                            <input id="modal-cantidad-input" class="modal-cantidad-input" type="number" min="1" value="1" readonly />
-                                                            <button id="modal-cantidad-suma" class="modal-cantidad-btn" type="button">+</button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-producto__acciones">
-                                                        <button id="modal-agregar-carrito" class="modal-agregar-carrito"><i class="bi bi-cart"></i> Agregar al Carrito</button>
-                                                        
-                                                    </div>
-                                                </div>
-                                        </div>
+                    <div class="modal-producto__overlay"></div>
+                    <div class="modal-producto__content modal-producto__content--2col">
+                        <button class="modal-producto__close" id="modal-producto-close">&times;</button>
+                        <div class="modal-producto__img-wrap">
+                            <img id="modal-producto-img" class="modal-producto__img" src="" alt="Producto" />
+                        </div>
+                        <div class="modal-producto__info">
+                            <h2 id="modal-producto-nombre" class="modal-producto__nombre"></h2>
+                            <span id="modal-producto-precio" class="modal-producto__precio"></span>
+                            <span id="modal-producto-estado"
+                                class="modal-producto__estado food-card__status food-card__status--ok">Disponible</span>
+                            <p id="modal-producto-marca" class="modal-producto__marca"></p>
+                            <span id="modal-producto-categoria" class="modal-producto__categoria"></span>
+                            <div class="modal-producto__desc" id="modal-producto-desc"></div>
+                            <div class="modal-producto__cantidad">
+                                <label for="modal-cantidad-input"><b>Cantidad:</b></label>
+                                <div class="modal-cantidad-group">
+                                    <button id="modal-cantidad-resta" class="modal-cantidad-btn"
+                                        type="button">-</button>
+                                    <input id="modal-cantidad-input" class="modal-cantidad-input" type="number" min="1"
+                                        value="1" readonly />
+                                    <button id="modal-cantidad-suma" class="modal-cantidad-btn" type="button">+</button>
+                                </div>
+                            </div>
+                            <div class="modal-producto__acciones">
+                                <button id="modal-agregar-carrito" class="modal-agregar-carrito"><i
+                                        class="bi bi-cart"></i> Agregar al Carrito</button>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

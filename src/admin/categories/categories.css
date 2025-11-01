@@ -113,7 +113,7 @@ body {
 
 /* Tabla principal */
 .category-container {
-    min-width: 1200px;
+    max-width: 1400px;
     margin: 2rem auto;
     padding: 0 2rem;
 }
@@ -125,60 +125,154 @@ body {
     margin-bottom: 1.5rem;
 }
 
-.category-list {
-    display: block;
-    width: 100%;
+.category-config h1 {
+    font-size: 2rem;
+    font-weight: 600;
 }
 
-.category-list table {
-    width: 90%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: var(--card-background);
-    border-radius: 15px;
-    box-shadow: var(--card-shadow);
-    overflow: hidden;
-    margin: 0 auto;
-}
-
-/* Encabezado de la tabla */
-.category-list thead tr {
+.btn-primary {
     background: var(--button-background);
-    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
-    font-size: 1rem;
-}
-
-.category-list th {
-    padding: 1rem 0.7rem;
-    text-align: left;
-    border: none;
-}
-
-/* Filas de la tabla */
-.category-list td {
-    padding: 0.8rem 0.7rem;
-    border: none;
-    color: var(--text-color);
-    background: #2c2c2c;
-    font-size: 1rem;
-}
-
-/* Primera columna (ID) centrada */
-.category-list td:first-child {
-    text-align: center;
-}
-
-/* Acciones */
-.category-list .btn {
-    padding: 0.4rem 1.1rem;
-    border-radius: 7px;
-    border: none;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-right: 0.5rem;
+    color: white;
     cursor: pointer;
-    transition: background 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: var(--button-hover-background);
+    transform: translateY(-2px);
+}
+
+.category-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+}
+
+/* Header de categorías con flexbox */
+.category-list-header {
+    display: flex;
+    color: #ffffffb0;
+    font-weight: 700;
+    border-radius: 18px 18px 0 0;
+    font-size: 1.08rem;
+    width: 100%;
+    box-sizing: border-box;
+    letter-spacing: 0.02em;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.category-list-header-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.category-list-header-item.id {
+    flex: 0 0 8%;
+    min-width: 50px;
+    text-align: center;
+    justify-content: center;
+}
+
+.category-list-header-item.nombre {
+    flex: 1 1 20%;
+    min-width: 120px;
+}
+
+.category-list-header-item.descripcion {
+    flex: 2 1 50%;
+    min-width: 180px;
+}
+
+.category-list-header-item.acciones {
+    flex: 0 0 22%;
+    min-width: 180px;
+    text-align: center;
+    justify-content: center;
+}
+
+/* Filas de categorías con flexbox */
+.category-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-top: #ff00ff47 0.5px solid;
+}
+
+
+
+.category-row-id {
+    flex: 0 0 8%;
+    min-width: 50px;
+    font-size: 0.95rem;
+    color: #ff00ff;
+    font-weight: 700;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-row-nombre {
+    flex: 1 1 20%;
+    min-width: 120px;
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: #fff;
+    word-break: break-word;
+    display: flex;
+    align-items: center;
+}
+
+.category-row-descripcion {
+    flex: 2 1 50%;
+    min-width: 180px;
+    font-size: 1.05rem;
+    color: #ffffff5c;
+    word-break: break-word;
+    display: flex;
+    align-items: center;
+}
+
+.category-row-actions {
+    flex: 0 0 22%;
+    min-width: 180px;
+    display: flex;
+    gap: 0.7rem;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ocultar tabla antigua */
+.category-list table {
+    display: none;
+}
+
+/* Botones de acciones */
+.category-list .btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .category-list .btn-edit {
@@ -188,6 +282,7 @@ body {
 
 .category-list .btn-edit:hover {
     background: #bfc3c7;
+    transform: translateY(-1px);
 }
 
 .category-list .btn-delete {
@@ -197,24 +292,104 @@ body {
 
 .category-list .btn-delete:hover {
     background: #a80027;
+    transform: translateY(-1px);
 }
 
-/* Sombra y borde redondeado para la tabla */
-.category-list table {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    border-radius: 15px;
-    overflow: hidden;
+/* Ocultar cards en desktop */
+.category-card {
+    display: none;
 }
 
 /* Responsive */
 @media (max-width: 700px) {
-    .category-list table {
-        width: 100%;
+    body {
+        overflow-x: hidden;
+    }
+
+    .category-container {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .category-config {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .category-config h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    /* Ocultar header y rows de desktop en mobile */
+    .category-list-header,
+    .category-row {
+        display: none !important;
+    }
+
+    /* Mostrar categorías como cards */
+    .category-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .category-card {
+        background: var(--card-background);
+        border-radius: 12px;
+        padding: 1rem;
+        box-shadow: var(--card-shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .category-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #3c3c3c;
+    }
+
+    .category-card-id {
+        background: var(--button-background);
+        color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .category-card-name {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    .category-card-description {
+        color: #bbb;
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+
+    .category-card-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .category-card-actions .btn {
+        flex: 1;
+        text-align: center;
+        padding: 0.7rem;
         font-size: 0.95rem;
     }
 
-    .category-list th,
-    .category-list td {
-        padding: 0.6rem 0.3rem;
+    .modal-content-create {
+        margin: 1rem;
+        padding: 1.5rem;
+        max-width: 90vw;
     }
 }

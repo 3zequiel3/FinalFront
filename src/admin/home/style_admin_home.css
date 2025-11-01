@@ -1,3 +1,123 @@
+/* --- Ajuste de margen y fondo según sidebar --- */
+.contenedor-contenido-pagina {    
+    display: flex;
+    flex-wrap: wrap;
+    margin: 3rem 1rem 3rem 18rem;
+    transition: margin 0.3s, background 0.3s;
+}
+.contenedor-contenido-pagina.bg-rojo {
+    margin: 3rem 1rem 3rem 1rem;
+}
+/* --- Cards de resumen admin --- */
+.admin-summary-cards {
+    display: flex;
+    gap: 2.2rem;
+    margin: 1.5rem 2.5rem 2.5rem 2.5rem;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.admin-summary-card {
+    background: linear-gradient(120deg, #23235a 0%, #5a4fff 100%);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px 0 #0002, 0 1.5px 8px 0 #0006;
+    padding: 1.7rem 2.2rem 1.5rem 2.2rem;
+    min-width: 220px;
+    max-width: 270px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+    color: #fff;
+    position: relative;
+    transition: box-shadow 0.22s, transform 0.22s;
+}
+.admin-summary-card--cat { background: linear-gradient(120deg, #23235a 0%, #5a4fff 100%); }
+.admin-summary-card--prod { background: linear-gradient(120deg, #ff4a7a 0%, #ff7ad9 100%); }
+.admin-summary-card--ped { background: linear-gradient(120deg, #1e90ff 0%, #00e6ff 100%); }
+.admin-summary-card--ok { background: linear-gradient(120deg, #00e6a0 0%, #00ffb2 100%); }
+.admin-summary-card__icon {
+    font-size: 2.1rem;
+    margin-bottom: 0.2rem;
+}
+.admin-summary-card__title {
+    font-size: 1.18rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+.admin-summary-card__count {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+.admin-summary-card__btn {
+    background: #fff;
+    color: #23235a;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px #fff2;
+}
+.admin-summary-card__btn:hover {
+    background: #ff00ff;
+    color: #fff;
+}
+.admin-summary-card__desc {
+    font-size: 1.3rem;
+    color: #ffffff;
+    margin-top: 0.2rem;
+    font-weight: bolder;
+}
+@media (max-width: 1100px) {
+    .admin-summary-cards {
+        flex-wrap: wrap;
+        gap: 1.2rem;
+        margin-left: 0.5rem;
+    }
+}
+@media (max-width: 700px) {
+    .admin-summary-cards {
+        flex-direction: column;
+        align-items: center;
+        margin: 1.2rem 0;
+    }
+    .admin-summary-card {
+        min-width: 90vw;
+        max-width: 99vw;
+        padding: 1.2rem 1rem 1.2rem 1rem;
+    }
+}
+.admin-summary-quick {
+    background: #fff;
+    color: #23235a;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px 0 #0001;
+    margin: 1.5rem 2.5rem 2.5rem 2.5rem;
+    padding: 1.5rem 2.2rem;
+    text-align: left;
+    font-size: 1.13rem;
+    width: 100%;
+}
+.admin-summary-quick__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+.admin-summary-quick__body {
+    color: #444;
+    font-size: 1.08rem;
+}
+
+
+
 /* --- Variables de Color y Estilos Generales (Tema Oscuro) --- */
 :root {
     --primary-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,11 +135,9 @@ body {
     font-family: var(--primary-font);
     background-color: var(--background-color);
     display: flex;
-    justify-content: center;
     align-items: center;
     min-height: 100vh;
     color: var(--text-color);
-    text-align: center;
 }
 
 /* --- Contenedor Principal --- */
@@ -41,6 +159,23 @@ body {
     box-shadow: var(--card-shadow);
     border: 1px solid #2c2c2c;
 }
+
+.contenedor-contenido{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.contenedor-contenido-pagina{    
+    display: flex;
+    flex-wrap: wrap;
+    margin: 3rem 1rem 3rem 18rem;
+}
+
+.contenedor-contenido-pagina.bg-rojo {    
+    margin: 3rem 1rem 3rem 1rem;
+}
+
 
 /* --- Título --- */
 .admin-title {
@@ -86,3 +221,5 @@ body {
         font-size: 1.8rem;
     }
 }
+
+
