@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -11,6 +12,12 @@
 </head>
 
 <body id="body">
+
+    <!-- Botón para mostrar/ocultar sidebar (solo desktop) -->
+    <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Mostrar/Ocultar categorías" tabindex="0">
+        <span id="sidebar-toggle-icon-hamburguesa"><i class="bi bi-list"></i></span>
+        <span id="sidebar-toggle-icon-x" style="display:none;"><i class="bi bi-x-lg"></i></span>
+    </button>
 
 
 
@@ -26,7 +33,6 @@
         <ul class="navbar-links" id="navbar-links">
             <li><a href="#">Inicio</a></li>
             <li><a href="#">Mis Pedidos</a></li>
-            <li><a href="#">Administración</a></li>
             <li class="navbar-cart">
                 <span class="cart-icon">🛒</span>
                 <span class="cart-badge">0</span>
@@ -36,15 +42,13 @@
             <!-- Dropdown mobile -->
             <li class="navbar-dropdown-mobile">
                 <button class="dropdown-toggle" aria-expanded="false">Categorias ▼</button>
-                <ul class="dropdown-menu">
-                    <li><a href="#"><span class="dropdown-icon">📦</span>Todos Los Productos</a></li>
-                    <li><a href="#"><span class="dropdown-icon">📁</span>Hamburguesas</a></li>
-                    <li><a href="#"><span class="dropdown-icon">🍕</span>Pizzas</a></li>
-                    <li><a href="#"><span class="dropdown-icon">🥤</span>Bebidas</a></li>
+                <ul class="dropdown-menu" id="dropdown-category-list">
+                    <!-- Categorías dinámicas aquí -->
                 </ul>
             </li>
             <li class="navbar-logout-mobile"><button id="logoutButton" class="navbar-logout">Cerrar Sesión</button></li>
-            <li class="navbar-logout-desktop"><button id="logoutButtonDesktop" class="navbar-logout">Cerrar Sesión</button></li>
+            <li class="navbar-logout-desktop"><button id="logoutButtonDesktop" class="navbar-logout">Cerrar
+                    Sesión</button></li>
         </ul>
     </nav>
 
@@ -52,12 +56,17 @@
 
     <!---------------------- Sidebar solo visible en desktop ------------------->
 
-    <aside class="sidebar-categorias">
+    <aside class="sidebar-categorias" id="sidebar-categorias">
         <div class="sidebar-categorias__title">Categorías</div>
         <div class="sidebar-categorias__subtitle">Filtra por categoría</div>
         <ul>
-            <li><a href="#"><span class="dropdown-icon">📁</span><p class="dropdown-icon-p">Todos Los Productos</p></a></li>
-            
+            <li><a href="#"><span class="dropdown-icon">📁</span>
+                    <div>
+                        <p class="dropdown-icon-principal">Todos Los</p>
+                        <p class="dropdown-icon-principal">Productos</p>
+                    </div>
+                </a></li>
+
         </ul>
 
         <ul id="category-list"></ul>
@@ -67,15 +76,81 @@
     <!---------------------- fin Sidebar ------------------------------------>
 
 
+    <div class="contenedor-contenido-pagina">
+
+        <!-- menu de busqueda -->
+
+        <!-- Menú de búsqueda (hardcodeado) -->
+        <section class="search-menu">
+            <form class="search-menu__form" autocomplete="off">
+                <div class="search-menu__input-group">
+                    <span class="search-menu__icon"><i class="bi bi-search"></i></span>
+                    <input type="text" class="search-menu__input" placeholder="Buscar productos..." />
+                </div>
+                <select class="search-menu__select">
+                    <option>Ordenar por</option>
+                    <option>Nombre</option>
+                    <option>Precio</option>
+                </select>
+                <select class="search-menu__select">
+                    <option>Todos</option>
+                    <option>Disponibles</option>
+                    <option>No disponibles</option>
+                </select>
+            </form>
+        </section>
 
 
 
-    <div class="client-container">
-        <div class="client-card">
-            <h1 class="client-title">Panel de Cliente</h1>
-            <p>Hola, bienvenido a tu panel.</p>
+        <!-- aca va el menu de busqueda -->
+
+
+        <!-- fin menu de busqueda -->
+
+        <div class="client-container">
+            <div class="client-card">
+                <h1 class="client-title">Todos Los Productos</h1>
+                <div class="card-food">
+
+
+                    <!-- Las tarjetas de comida se generan dinámicamente aquí -->
+                    
+                </div>
+                        <!-- Modal para producto -->
+                <div id="modal-producto" class="modal-producto" style="display:none;">
+                                        <div class="modal-producto__overlay"></div>
+                                        <div class="modal-producto__content modal-producto__content--2col">
+                                                <button class="modal-producto__close" id="modal-producto-close">&times;</button>
+                                                <div class="modal-producto__img-wrap">
+                                                    <img id="modal-producto-img" class="modal-producto__img" src="" alt="Producto" />
+                                                </div>
+                                                <div class="modal-producto__info">
+                                                    <h2 id="modal-producto-nombre" class="modal-producto__nombre"></h2>
+                                                    <span id="modal-producto-precio" class="modal-producto__precio"></span>
+                                                    <span id="modal-producto-estado" class="modal-producto__estado food-card__status food-card__status--ok">Disponible</span>
+                                                    <p id="modal-producto-marca" class="modal-producto__marca"></p>
+                                                    <span id="modal-producto-categoria" class="modal-producto__categoria"></span>
+                                                    <div class="modal-producto__desc" id="modal-producto-desc"></div>
+                                                    <div class="modal-producto__cantidad">
+                                                        <label for="modal-cantidad-input"><b>Cantidad:</b></label>
+                                                        <div class="modal-cantidad-group">
+                                                            <button id="modal-cantidad-resta" class="modal-cantidad-btn" type="button">-</button>
+                                                            <input id="modal-cantidad-input" class="modal-cantidad-input" type="number" min="1" value="1" readonly />
+                                                            <button id="modal-cantidad-suma" class="modal-cantidad-btn" type="button">+</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-producto__acciones">
+                                                        <button id="modal-agregar-carrito" class="modal-agregar-carrito"><i class="bi bi-cart"></i> Agregar al Carrito</button>
+                                                        
+                                                    </div>
+                                                </div>
+                                        </div>
+                </div>
+            </div>
         </div>
+
     </div>
+
     <script type="module" src="./home.ts"></script>
 </body>
 
