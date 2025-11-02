@@ -56,6 +56,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // --- Dropdown mobile ---
+  const dropdown = document.querySelector('.navbar-dropdown-mobile');
+  const dropdownToggle = dropdown?.querySelector('.dropdown-toggle') as HTMLButtonElement;
+
+  if (dropdown && dropdownToggle) {
+    dropdownToggle.addEventListener('click', function () {
+      const isOpen = dropdown.classList.toggle('open');
+      dropdownToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  }
+
   // --- Botones de logout ---
   const logoutButton = document.getElementById('logoutButton');
   const logoutButtonDesktop = document.getElementById('logoutButtonDesktop');

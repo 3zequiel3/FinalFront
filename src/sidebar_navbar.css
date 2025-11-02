@@ -439,14 +439,13 @@ body {
         top: 5.5rem;
         left: 0;
         width: 260px;
-        background: #232323;
+        background: #1e1e1e;
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
         padding: 2.5rem 0 0 0;
         z-index: 900;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        border-right: 1.5px solid #ff00ff;
         margin-left: 0.5rem;
         border-radius: 2rem;
     }
@@ -489,8 +488,6 @@ body {
     .sidebar-categorias li:hover {
 
         color: #ff00ff;
-        border-left: 0.3rem solid #ff00ff86;
-        background-color: #ffffff14;
     }
 
     .sidebar-categorias .dropdown-icon {

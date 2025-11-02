@@ -72,6 +72,85 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // --------------------------------------- Fin menú hamburguesa responsivo ------------------------------------------------------------------------
+
+// ----------------------------- Funcionalidad para marcar item activo en sidebar -------------------------------
+// Función para marcar item activo
+function setActiveSidebarItem(itemLi: HTMLElement) {
+  // Remover active de todos los li del sidebar
+  const allSidebarLis = document.querySelectorAll('.sidebar-categorias li');
+  allSidebarLis.forEach(li => li.classList.remove('active'));
+  
+  // Agregar active al li clickeado
+  itemLi.classList.add('active');
+  
+  // También en el dropdown mobile
+  const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
+  allDropdownLis.forEach(li => li.classList.remove('active'));
+}
+
+// Marcar Dashboard como activo por defecto al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+  const dashboardLi = document.querySelector('.sidebar-categorias ul li:first-child') as HTMLLIElement;
+  if (dashboardLi) {
+    dashboardLi.classList.add('active');
+  }
+  
+  // También marcar en el dropdown mobile
+  const dashboardDropdownLi = document.querySelector('.dropdown-menu li:first-child') as HTMLLIElement;
+  if (dashboardDropdownLi) {
+    dashboardDropdownLi.classList.add('active');
+  }
+  
+  // Agregar listeners a todos los items del sidebar
+  const sidebarLinks = document.querySelectorAll('.sidebar-categorias li a');
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const li = (e.currentTarget as HTMLElement).closest('li') as HTMLLIElement;
+      if (li) {
+        setActiveSidebarItem(li);
+        
+        // Sincronizar con dropdown mobile
+        const linkText = li.textContent?.trim().toLowerCase();
+        const dropdownItems = document.querySelectorAll('.dropdown-menu li');
+        dropdownItems.forEach(dropItem => {
+          const dropText = dropItem.textContent?.trim().toLowerCase();
+          if (dropText === linkText) {
+            const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
+            allDropdownLis.forEach(item => item.classList.remove('active'));
+            dropItem.classList.add('active');
+          }
+        });
+      }
+    });
+  });
+  
+  // Agregar listeners al dropdown mobile
+  const dropdownLinks = document.querySelectorAll('.dropdown-menu li a');
+  dropdownLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const li = (e.currentTarget as HTMLElement).closest('li') as HTMLLIElement;
+      if (li) {
+        // Marcar en dropdown
+        const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
+        allDropdownLis.forEach(item => item.classList.remove('active'));
+        li.classList.add('active');
+        
+        // Sincronizar con sidebar
+        const linkText = li.textContent?.trim().toLowerCase();
+        const sidebarItems = document.querySelectorAll('.sidebar-categorias li');
+        sidebarItems.forEach(sideItem => {
+          const sideText = sideItem.textContent?.trim().toLowerCase();
+          if (sideText === linkText) {
+            setActiveSidebarItem(sideItem as HTMLLIElement);
+          }
+        });
+      }
+    });
+  });
+});
+
+// ----------------------------- Fin funcionalidad item activo -------------------------------
+
 const buttonLogout = document.getElementById(
   "logoutButton"
 ) as HTMLButtonElement;
@@ -175,16 +254,16 @@ async function loadEstadisticas() {
     // Actualizar resumen rápido
     if (resumenQuickEl) {
       resumenQuickEl.innerHTML = `
-        <p style="margin: 0.5rem 0; color: #555;">
+        <p style="margin: 0.5rem 0; color: #ffffff;">
           📁 <strong>${categorias.length}</strong> categorías registradas
         </p>
-        <p style="margin: 0.5rem 0; color: #555;">
+        <p style="margin: 0.5rem 0; color: #ffffff;">
           🍔 <strong>${productos.length}</strong> productos en total
         </p>
-        <p style="margin: 0.5rem 0; color: #555;">
+        <p style="margin: 0.5rem 0; color: #ffffff;">
           ✅ <strong>${productos.length}</strong> productos disponibles
         </p>
-        <p style="margin: 0.5rem 0; color: #999; font-style: italic;">
+        <p style="margin: 0.5rem 0; color: #ffffff; font-style: italic;">
           📦 Sistema de pedidos próximamente...
         </p>
       `;

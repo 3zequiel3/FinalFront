@@ -1,6 +1,85 @@
 import type { ICategory, ICategoryCreate } from "../../types/ICategory";
 import { envs } from "../../utils/enviromentVariable";
 
+// ----------------------------- Funcionalidad para marcar item activo en sidebar -------------------------------
+// Función para marcar item activo
+function setActiveSidebarItem(itemLi: HTMLElement) {
+  // Remover active de todos los li del sidebar
+  const allSidebarLis = document.querySelectorAll('.sidebar-categorias li');
+  allSidebarLis.forEach(li => li.classList.remove('active'));
+  
+  // Agregar active al li clickeado
+  itemLi.classList.add('active');
+  
+  // También en el dropdown mobile
+  const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
+  allDropdownLis.forEach(li => li.classList.remove('active'));
+}
+
+// Marcar Categorías como activo por defecto al cargar la página
+window.addEventListener('DOMContentLoaded', () => {
+  // Buscar el item "Categorias" en el sidebar (segundo li)
+  const categoriasLi = document.querySelector('.sidebar-categorias ul li:nth-child(2)') as HTMLLIElement;
+  if (categoriasLi) {
+    categoriasLi.classList.add('active');
+  }
+  
+  // También marcar en el dropdown mobile (segundo li)
+  const categoriasDropdownLi = document.querySelector('.dropdown-menu li:nth-child(2)') as HTMLLIElement;
+  if (categoriasDropdownLi) {
+    categoriasDropdownLi.classList.add('active');
+  }
+  
+  // Agregar listeners a todos los items del sidebar
+  const sidebarLinks = document.querySelectorAll('.sidebar-categorias li a');
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const li = (e.currentTarget as HTMLElement).closest('li') as HTMLLIElement;
+      if (li) {
+        setActiveSidebarItem(li);
+        
+        // Sincronizar con dropdown mobile
+        const linkText = li.textContent?.trim().toLowerCase();
+        const dropdownItems = document.querySelectorAll('.dropdown-menu li');
+        dropdownItems.forEach(dropItem => {
+          const dropText = dropItem.textContent?.trim().toLowerCase();
+          if (dropText === linkText) {
+            const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
+            allDropdownLis.forEach(item => item.classList.remove('active'));
+            dropItem.classList.add('active');
+          }
+        });
+      }
+    });
+  });
+  
+  // Agregar listeners al dropdown mobile
+  const dropdownLinks = document.querySelectorAll('.dropdown-menu li a');
+  dropdownLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const li = (e.currentTarget as HTMLElement).closest('li') as HTMLLIElement;
+      if (li) {
+        // Marcar en dropdown
+        const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
+        allDropdownLis.forEach(item => item.classList.remove('active'));
+        li.classList.add('active');
+        
+        // Sincronizar con sidebar
+        const linkText = li.textContent?.trim().toLowerCase();
+        const sidebarItems = document.querySelectorAll('.sidebar-categorias li');
+        sidebarItems.forEach(sideItem => {
+          const sideText = sideItem.textContent?.trim().toLowerCase();
+          if (sideText === linkText) {
+            setActiveSidebarItem(sideItem as HTMLLIElement);
+          }
+        });
+      }
+    });
+  });
+});
+
+// ----------------------------- Fin funcionalidad item activo -------------------------------
+
 const form = document.getElementById("category-form") as HTMLFormElement;
 
 const inputCategoryName = document.getElementById("category-name") as HTMLInputElement;

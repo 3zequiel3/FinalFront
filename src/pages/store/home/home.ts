@@ -384,21 +384,47 @@ function filtrarPorCategoria(categoriaId: number|null) {
   }
 }
 
+// Función para marcar categoría activa
+function setActiveCategory(categoryLi: HTMLElement) {
+  // Remover active de todos los li del sidebar
+  const allSidebarLis = document.querySelectorAll('.sidebar-categorias li');
+  allSidebarLis.forEach(li => li.classList.remove('active'));
+  
+  // Agregar active al li clickeado
+  categoryLi.classList.add('active');
+  
+  // También en el dropdown mobile
+  const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
+  allDropdownLis.forEach(li => li.classList.remove('active'));
+}
+
 // Clicks en sidebar y menú mobile
 window.addEventListener('DOMContentLoaded', () => {
   // Click en "Todos los productos" sidebar
-  const todosLink = document.querySelector('.sidebar-categorias ul li a');
-  if (todosLink) {
-    todosLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      filtrarPorCategoria(null);
-    });
+  const todosLi = document.querySelector('.sidebar-categorias ul li') as HTMLLIElement;
+  if (todosLi) {
+    // Marcar como activo por defecto
+    todosLi.classList.add('active');
+    
+    const todosLink = todosLi.querySelector('a');
+    if (todosLink) {
+      todosLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        setActiveCategory(todosLi);
+        filtrarPorCategoria(null);
+      });
+    }
   }
+  
   // Click en categorías dinámicas sidebar
   categoryList.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    const li = target.closest('li');
+    const li = target.closest('li') as HTMLLIElement;
     if (!li) return;
+    
+    e.preventDefault();
+    setActiveCategory(li);
+    
     const nombre = li.textContent?.trim().toLowerCase();
     const prodCat = productosMem.find(p => p.categoriaNombre.toLowerCase() === nombre);
     if (prodCat) {
@@ -412,14 +438,33 @@ window.addEventListener('DOMContentLoaded', () => {
   if (dropdownCategoryList) {
     dropdownCategoryList.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === 'A') {
+      const li = target.closest('li') as HTMLLIElement;
+      if (target.tagName === 'A' && li) {
         e.preventDefault();
+        
+        // Remover active de dropdown y agregar al clickeado
+        const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
+        allDropdownLis.forEach(item => item.classList.remove('active'));
+        li.classList.add('active');
+        
         const nombre = target.textContent?.trim().toLowerCase();
         if (nombre === 'todos los productos') {
+          // También marcar en sidebar
+          const todosLiSidebar = document.querySelector('.sidebar-categorias ul li') as HTMLLIElement;
+          if (todosLiSidebar) {
+            setActiveCategory(todosLiSidebar);
+          }
           filtrarPorCategoria(null);
         } else {
           const prodCat = productosMem.find(p => p.categoriaNombre.toLowerCase() === nombre);
           if (prodCat) {
+            // Sincronizar con sidebar
+            const allSidebarLis = document.querySelectorAll('.sidebar-categorias li');
+            allSidebarLis.forEach(sidebarLi => {
+              if (sidebarLi.textContent?.trim().toLowerCase().includes(nombre)) {
+                setActiveCategory(sidebarLi as HTMLLIElement);
+              }
+            });
             filtrarPorCategoria(prodCat.categoriaId);
           } else {
             filtrarPorCategoria(null);

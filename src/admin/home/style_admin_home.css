@@ -81,20 +81,58 @@
     }
 }
 @media (max-width: 700px) {
+    body {
+        overflow-x: hidden;
+    }
+    
+    .contenedor-contenido-pagina {
+        margin: 1rem 0.5rem;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .contenedor-contenido-pagina.bg-rojo {
+        margin: 1rem 0.5rem;
+    }
+    
+    .admin-title {
+        font-size: 1.5rem !important;
+        margin-left: 1rem !important;
+        margin-top: 1rem !important;
+        text-align: center !important;
+    }
+    
     .admin-summary-cards {
         flex-direction: column;
         align-items: center;
-        margin: 1.2rem 0;
+        margin: 1rem 0.5rem;
+        gap: 1rem;
+        padding: 0;
+        width: 100%;
     }
+    
     .admin-summary-card {
-        min-width: 90vw;
-        max-width: 99vw;
-        padding: 1.2rem 1rem 1.2rem 1rem;
+        min-width: 85vw;
+        max-width: 90vw;
+        padding: 1.5rem 1.2rem;
+    }
+    
+    .admin-summary-quick {
+        margin: 1rem 0.5rem;
+        padding: 1.2rem 1rem;
+        width: calc(100% - 1rem);
+    }
+    
+    .admin-summary-quick__title {
+        font-size: 1.1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
     }
 }
 .admin-summary-quick {
-    background: #fff;
-    color: #23235a;
+    background: #1e1e1e;
+    color: #ffffff;
     border-radius: 16px;
     box-shadow: 0 2px 16px 0 #0001;
     margin: 1.5rem 2.5rem 2.5rem 2.5rem;
@@ -208,18 +246,114 @@ body {
 
 #logoutButton:hover {
     background-color: var(--button-hover-background);
-    transform: translateY(-2px);
+    transform: scale(1.05);
 }
 
 /* --- Media Queries para Responsividad --- */
 @media (max-width: 480px) {
-    .admin-card {
-        padding: 2rem 1.5rem;
+    body {
+        overflow-x: hidden;
+        width: 100vw;
     }
-
+    
+    .contenedor-contenido-pagina {
+        margin: 0.5rem 0.3rem;
+        padding: 0;
+        width: 100%;
+        max-width: 100vw;
+    }
+    
     .admin-title {
+        font-size: 1.3rem !important;
+        margin: 0.5rem 0.5rem 1rem 0.5rem !important;
+        text-align: center !important;
+    }
+    
+    .admin-summary-cards {
+        margin: 0.8rem 0.3rem;
+        gap: 0.8rem;
+        width: 100%;
+    }
+    
+    .admin-summary-card {
+        min-width: 90vw;
+        max-width: 95vw;
+        padding: 1.2rem 1rem;
+    }
+    
+    .admin-summary-card__icon {
         font-size: 1.8rem;
     }
+    
+    .admin-summary-card__title {
+        font-size: 1.1rem;
+    }
+    
+    .admin-summary-card__count {
+        font-size: 1.8rem;
+    }
+    
+    .admin-summary-card__btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .admin-summary-card__desc {
+        font-size: 1.1rem;
+    }
+    
+    .admin-summary-quick {
+        margin: 0.8rem 0.3rem;
+        padding: 1rem 0.8rem;
+        width: calc(100% - 0.6rem);
+    }
+    
+    .admin-summary-quick__title {
+        font-size: 1rem;
+    }
+    
+    .admin-summary-quick__body {
+        font-size: 0.95rem;
+    }
+    
+    .admin-summary-quick__body p {
+        margin: 0.4rem 0 !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* ----------------------------- Estilos para item activo en sidebar admin --------------------------------------------------- */
+.sidebar-categorias li.active {
+    background: linear-gradient(135deg, #ff00ff22 0%, #ff00ff11 100%);
+    border-left: 3px solid #ff00ff;
+}
+
+.sidebar-categorias li.active a {
+    color: #ff00ff;
+}
+
+.sidebar-categorias li.active .dropdown-icon {
+    color: #ff00ff;
+}
+
+.sidebar-categorias li.active .dropdown-icon-p {
+    color: #ff00ff;
+    font-weight: 600;
+}
+
+/* Para el dropdown mobile del admin */
+.dropdown-menu li.active {
+    background: #ff00ff22;
+    border-radius: 0.5rem;
+}
+
+.dropdown-menu li.active a {
+    color: #ff00ff;
+    font-weight: 600;
+}
+
+.dropdown-menu li.active .dropdown-icon {
+    color: #ff00ff;
 }
 
 
