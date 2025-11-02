@@ -84,18 +84,154 @@ window.addEventListener('DOMContentLoaded', () => {
 const inputNombreProducto = document.getElementById("product-name") as HTMLInputElement;
 const inputMarcaProducto = document.getElementById("product-marca") as HTMLInputElement;
 const inputPrecioProducto = document.getElementById("product-price") as HTMLInputElement;
-const selectCategoriaProducto = document.getElementById("product-category") as HTMLSelectElement;
+const inputImagenProducto = document.getElementById("product-image") as HTMLInputElement;
+const inputStockProducto = document.getElementById("product-stock") as HTMLInputElement;
+const inputCategoriaProducto = document.getElementById("product-category") as HTMLInputElement;
+const hiddenCategoriaProductoId = document.getElementById("product-category-id") as HTMLInputElement;
+const suggestionsList = document.getElementById("categorySuggestions") as HTMLDivElement;
 const form = document.getElementById("product-form") as HTMLFormElement;
-
 
 const productList = document.getElementById("product-list-items") as HTMLUListElement;
 
 const API_URL = envs.API_URL;
 
+// Variables globales para autocompletado
+let allCategories: ICategory[] = [];
+let selectedCategoryId: string | null = null;
+let currentSuggestionIndex = -1;
+
+// Funciones del autocompletado de categorías
+function initAutocomplete() {
+    if (!inputCategoriaProducto || !suggestionsList) return;
+
+    // Evento input para filtrar sugerencias
+    inputCategoriaProducto.addEventListener('input', (e) => {
+        const query = (e.target as HTMLInputElement).value.toLowerCase();
+        showSuggestions(query);
+    });
+
+    // Evento focus para mostrar todas las opciones
+    inputCategoriaProducto.addEventListener('focus', () => {
+        showSuggestions(inputCategoriaProducto.value.toLowerCase());
+    });
+
+    // Evento blur para ocultar sugerencias (con delay para permitir clics)
+    inputCategoriaProducto.addEventListener('blur', () => {
+        setTimeout(() => {
+            hideSuggestions();
+        }, 200);
+    });
+
+    // Navegación con teclado
+    inputCategoriaProducto.addEventListener('keydown', (e) => {
+        const suggestions = suggestionsList.querySelectorAll('.suggestion-item');
+        
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            currentSuggestionIndex = Math.min(currentSuggestionIndex + 1, suggestions.length - 1);
+            updateHighlight();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            currentSuggestionIndex = Math.max(currentSuggestionIndex - 1, -1);
+            updateHighlight();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (currentSuggestionIndex >= 0 && suggestions[currentSuggestionIndex]) {
+                selectSuggestion(suggestions[currentSuggestionIndex] as HTMLDivElement);
+            }
+        } else if (e.key === 'Escape') {
+            hideSuggestions();
+            inputCategoriaProducto.blur();
+        }
+    });
+}
+
+function showSuggestions(query: string) {
+    if (!suggestionsList) return;
+
+    const filteredCategories = allCategories
+        .filter(cat => cat.nombre.toLowerCase().includes(query))
+        .sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+    suggestionsList.innerHTML = '';
+    currentSuggestionIndex = -1;
+
+    if (filteredCategories.length === 0) {
+        const noResults = document.createElement('div');
+        noResults.className = 'no-suggestions';
+        noResults.textContent = 'No se encontraron categorías';
+        suggestionsList.appendChild(noResults);
+    } else {
+        filteredCategories.forEach(category => {
+            const item = document.createElement('div');
+            item.className = 'suggestion-item';
+            item.textContent = category.nombre;
+            item.dataset.categoryId = category.id.toString();
+
+            item.addEventListener('click', () => {
+                selectSuggestion(item);
+            });
+
+            suggestionsList.appendChild(item);
+        });
+    }
+
+    suggestionsList.classList.add('show');
+}
+
+function hideSuggestions() {
+    if (suggestionsList) {
+        suggestionsList.classList.remove('show');
+    }
+}
+
+function updateHighlight() {
+    const suggestions = suggestionsList.querySelectorAll('.suggestion-item');
+    suggestions.forEach((item, index) => {
+        item.classList.toggle('highlighted', index === currentSuggestionIndex);
+    });
+}
+
+function selectSuggestion(item: HTMLDivElement) {
+    const categoryName = item.textContent || '';
+    const categoryId = item.dataset.categoryId;
+
+    inputCategoriaProducto.value = categoryName;
+    if (categoryId && hiddenCategoriaProductoId) {
+        hiddenCategoriaProductoId.value = categoryId;
+        selectedCategoryId = categoryId;
+    }
+
+    hideSuggestions();
+    
+    // Marcar como seleccionada visualmente
+    const suggestions = suggestionsList.querySelectorAll('.suggestion-item');
+    suggestions.forEach(s => s.classList.remove('selected'));
+    item.classList.add('selected');
+}
+
+function setSelectedCategory(categoryId: string | null) {
+    if (!categoryId || !inputCategoriaProducto || !hiddenCategoriaProductoId) return;
+    
+    const category = allCategories.find(cat => cat.id === categoryId);
+    if (category) {
+        inputCategoriaProducto.value = category.nombre;
+        hiddenCategoriaProductoId.value = categoryId;
+        selectedCategoryId = categoryId;
+    }
+}
+
 // Modal functionality
 const modal = document.getElementById("modal-nuevo-producto") as HTMLDivElement;
 const btnNuevoProducto = document.getElementById("nuevo-producto-btn") as HTMLButtonElement;
 const btnCloseModal = document.getElementById("close-modal") as HTMLButtonElement;
+
+// Delete modal functionality
+const deleteModal = document.getElementById("modal-delete-product") as HTMLDivElement;
+const btnCloseDeleteModal = document.getElementById("close-delete-modal") as HTMLButtonElement;
+const btnCancelDelete = document.getElementById("cancel-delete-btn") as HTMLButtonElement;
+const btnConfirmDelete = document.getElementById("confirm-delete-btn") as HTMLButtonElement;
+const productToDeleteName = document.getElementById("product-to-delete-name") as HTMLElement;
 const modalError = document.getElementById("modal-error") as HTMLDivElement;
 const modalSuccess = document.getElementById("modal-success") as HTMLDivElement;
 
@@ -119,6 +255,38 @@ function hideMessages() {
     modalSuccess.style.display = "none";
 }
 
+// Variables para manejar el producto a eliminar
+let productToDelete: any = null;
+
+// Función para mostrar modal de confirmación de eliminación
+function showDeleteModal(product: any) {
+    productToDelete = product;
+    productToDeleteName.textContent = product.nombre;
+    deleteModal.style.display = "flex";
+}
+
+// Función para ocultar modal de eliminación
+function hideDeleteModal() {
+    deleteModal.style.display = "none";
+    productToDelete = null;
+}
+
+// Función para eliminar producto confirmado
+async function deleteProduct() {
+    if (!productToDelete) return;
+    
+    try {
+        const resp = await fetch(`${API_URL}/productos/${productToDelete.id}`, { method: 'DELETE' });
+        if (!resp.ok) throw new Error('Error al eliminar');
+        
+        // Recargar la lista de productos
+        await displayProducts();
+        hideDeleteModal();
+    } catch (e) {
+        alert('No se pudo eliminar el producto');
+    }
+}
+
 // Abrir modal
 btnNuevoProducto?.addEventListener("click", () => {
     // Restablecer el modal para crear nuevo producto
@@ -137,6 +305,11 @@ btnNuevoProducto?.addEventListener("click", () => {
     
     // Limpiar el ID de edición
     delete form.dataset.editingId;
+    
+    // Limpiar campos de categoría
+    if (inputCategoriaProducto) inputCategoriaProducto.value = '';
+    if (hiddenCategoriaProductoId) hiddenCategoriaProductoId.value = '';
+    selectedCategoryId = null;
     
     modal.style.display = "flex";
     hideMessages();
@@ -161,6 +334,18 @@ modal?.addEventListener("click", (e) => {
     }
 });
 
+// Event listeners para modal de eliminación
+btnCloseDeleteModal?.addEventListener("click", hideDeleteModal);
+btnCancelDelete?.addEventListener("click", hideDeleteModal);
+btnConfirmDelete?.addEventListener("click", deleteProduct);
+
+// Cerrar modal de eliminación al hacer clic fuera
+deleteModal?.addEventListener("click", (e) => {
+    if (e.target === deleteModal) {
+        hideDeleteModal();
+    }
+});
+
 // Manejar el envío del formulario
 form?.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -170,18 +355,26 @@ form?.addEventListener("submit", async (e) => {
     const nombre = inputNombreProducto.value.trim();
     const marca = inputMarcaProducto.value.trim();
     const precioStr = inputPrecioProducto.value.trim();
-    const categoriaIdStr = selectCategoriaProducto.value;
+    const imagen = inputImagenProducto.value.trim();
+    const stockStr = inputStockProducto.value.trim();
+    const categoriaIdStr = hiddenCategoriaProductoId.value;
 
-    if (!nombre || !marca || !precioStr || !categoriaIdStr) {
+    if (!nombre || !marca || !precioStr || !stockStr || !categoriaIdStr) {
         showError("Por favor, completa todos los campos obligatorios.");
         return;
     }
 
     const precio = parseFloat(precioStr);
+    const stock = parseInt(stockStr);
     const categoriaId = parseInt(categoriaIdStr);
 
     if (isNaN(precio) || precio <= 0) {
         showError("El precio debe ser un número positivo.");
+        return;
+    }
+
+    if (isNaN(stock) || stock < 0) {
+        showError("El stock debe ser un número no negativo.");
         return;
     }
 
@@ -195,7 +388,9 @@ form?.addEventListener("submit", async (e) => {
         nombre,
         marca,
         precio,
-        categoriaId
+        categoriaId,
+        imagen: imagen || null,
+        stock
     };
 
     // Verificar si estamos editando o creando
@@ -272,32 +467,36 @@ async function getProducts() {
 }
 
 function createCategoryOption(categories: ICategory[]) {
-    if (!selectCategoriaProducto) return;
-    selectCategoriaProducto.length = 1;
-
-    categories.forEach((category) => {
-        const option = document.createElement("option");
-        option.value = category.id.toString();
-        option.textContent = category.nombre;
-        selectCategoriaProducto.appendChild(option);
-    });
+    // Ordenar categorías alfabéticamente desde el inicio
+    allCategories = categories.sort((a, b) => a.nombre.localeCompare(b.nombre));
+    // Inicializar el autocompletado solo una vez
+    if (!inputCategoriaProducto.dataset.initialized) {
+        initAutocomplete();
+        inputCategoriaProducto.dataset.initialized = 'true';
+    }
 }
+
+
+
+// ----------------------Función para mostrar los productos en la lista-----------------------
 
 async function displayProducts() {
     const products = await getProducts();
     productList.innerHTML = "";
-    products.forEach((product: any, index: number) => {
+    products.forEach((product: any) => {
         const card = document.createElement("div");
         card.className = "admin-producto-card";
-        // Hardcodear: primeros 2 productos tendrán "No", el resto "Sí"
-        const tieneStock = index >= 2;
-        const stockTexto = tieneStock ? 'Sí' : 'No';
-        const stockClase = tieneStock ? 'si' : 'no';
+        
+        // Solo mostrar la cantidad de stock
+        const stockClase = product.stock > 0 ? 'si' : 'no';
+        
+        // Usar imagen del producto o fallback
+        const imagenUrl = product.imagen || 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png';
         
         card.innerHTML = `
             <div class="admin-producto-card-id">ID: #${product.id ?? ''}</div>
             <div class="contenedor-imagen">
-                <img class="admin-producto-card-img" src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Imagen producto">
+                <img class="admin-producto-card-img" src="${imagenUrl}" alt="Imagen producto" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3075/3075977.png'">
             </div>
             <div class="admin-producto-card-nombre">${product.nombre}</div>
             <div class="admin-producto-card-desc">${product.marca}</div>
@@ -305,7 +504,7 @@ async function displayProducts() {
             <div class="admin-producto-card-info-row">
                 <div class="admin-producto-card-categoria">${product.categoriaNombre ?? ''}</div>
                 <div class="admin-producto-card-stock">
-                    <span class="badge-stock ${stockClase}">${stockTexto}</span>
+                    <span class="badge-stock ${stockClase}">${product.stock}</span>
                 </div>
             </div>
             <div class="admin-producto-card-actions">
@@ -315,25 +514,29 @@ async function displayProducts() {
         `;
 
         // Eliminar producto
-        card.querySelector('.admin-btn-delete')?.addEventListener('click', async () => {
-            if (confirm(`¿Seguro que deseas eliminar el producto "${product.nombre}"?`)) {
-                try {
-                    const resp = await fetch(`${API_URL}/productos/${product.id}`, { method: 'DELETE' });
-                    if (!resp.ok) throw new Error('Error al eliminar');
-                    card.remove();
-                } catch (e) {
-                    alert('No se pudo eliminar el producto');
-                }
-            }
+        card.querySelector('.admin-btn-delete')?.addEventListener('click', () => {
+            showDeleteModal(product);
         });
 
         // Editar producto (abrir modal con datos)
-        card.querySelector('.admin-btn-edit')?.addEventListener('click', () => {
+        card.querySelector('.admin-btn-edit')?.addEventListener('click', async () => {
+            // Asegurar que las categorías estén cargadas
+            try {
+                const categories = await getCategories();
+                createCategoryOption(categories);
+                
+                // Establecer la categoría seleccionada inmediatamente después de cargar las categorías
+                setSelectedCategory(product.categoriaId?.toString() || null);
+            } catch (error) {
+                console.error("Error loading categories:", error);
+            }
+
             // Prellenar el formulario con los datos del producto
             inputNombreProducto.value = product.nombre;
             inputMarcaProducto.value = product.marca;
             inputPrecioProducto.value = product.precio.toString();
-            selectCategoriaProducto.value = product.categoriaId?.toString() || '';
+            inputImagenProducto.value = product.imagen || '';
+            inputStockProducto.value = product.stock.toString();
             
             // Cambiar el título del modal
             const modalTitle = document.querySelector('.modal-title') as HTMLHeadingElement;
@@ -373,7 +576,10 @@ async function init() {
     }
 }
 
+
 displayProducts();
+
+
 document.addEventListener("DOMContentLoaded", () => {
     init();
 });

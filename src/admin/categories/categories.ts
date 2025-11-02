@@ -204,7 +204,6 @@ const getCategories = async () => {
 const displayCategories = async () => {
     try {
         const categories = await getCategories();
-        console.log("Categorías recibidas:", categories);
         
         // Limpiar todo el contenido previo
         categoryList.innerHTML = "";

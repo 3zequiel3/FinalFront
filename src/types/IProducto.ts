@@ -4,6 +4,9 @@ export interface IProducto{
     precio: number;
     marca: string;
     categoriaNombre: string;
+    imagen?: string | null;
+    stock: number;
+    categoriaId?: number;
 }
 
 export interface IProductoCreate{
@@ -11,4 +14,6 @@ export interface IProductoCreate{
     precio: number;
     marca: string;
     categoriaId: number;
+    imagen?: string | null;
+    stock: number;
 }

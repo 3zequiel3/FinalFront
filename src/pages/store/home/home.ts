@@ -228,6 +228,8 @@ type Producto = {
   marca: string;
   categoriaNombre: string;
   categoriaId: number;
+  imagen?: string | null;
+  stock: number;
 };
 
 const cardFood = document.querySelector('.card-food') as HTMLElement;
@@ -265,23 +267,33 @@ function renderProductos(productos: Producto[]) {
   productos.forEach(producto => {
     const card = document.createElement('div');
     card.className = 'food-card';
-    // Imagen placeholder, puedes mapear por categoría si lo deseas
-    let imgUrl = 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80';
-    if (producto.categoriaNombre.toLowerCase().includes('pizza')) imgUrl = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80';
-    if (producto.categoriaNombre.toLowerCase().includes('bebida')) imgUrl = 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80';
+    
+    // Usar imagen del producto o fallback según categoría
+    let imgUrl = producto.imagen;
+    if (!imgUrl) {
+      // Fallback por categoría si no hay imagen
+      imgUrl = 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80';
+      if (producto.categoriaNombre.toLowerCase().includes('pizza')) imgUrl = 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80';
+      if (producto.categoriaNombre.toLowerCase().includes('bebida')) imgUrl = 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80';
+    }
 
     // Formato precio: "$ 12000"
     const precioFormateado = `$ ${Math.round(producto.precio).toLocaleString('es-AR')}`;
+    
+    // Estado basado en stock real - solo texto simple en las tarjetas
+    const disponible = producto.stock > 0;
+    const estadoTexto = disponible ? 'Disponible' : 'Agotado';
+    const estadoClase = disponible ? 'food-card__status--ok' : 'food-card__status--no';
 
     card.innerHTML = `
-      <img class="food-card__img" src="${imgUrl}" alt="${producto.nombre}">
+      <img class="food-card__img" src="${imgUrl}" alt="${producto.nombre}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3075/3075977.png'">
       <div class="food-card__body">
         <span class="food-card__category">${producto.categoriaNombre}</span>
         <h3 class="food-card__title">${producto.nombre}</h3>
         <p class="food-card__desc">${producto.marca}</p>
         <div class="food-card__footer">
           <span class="food-card__price">${precioFormateado}</span>
-          <span class="food-card__status food-card__status--ok">Disponible</span>
+          <span class="food-card__status ${estadoClase}">${estadoTexto}</span>
         </div>
       </div>
     `;
@@ -308,15 +320,15 @@ function mostrarModalProducto(producto: any) {
   (document.getElementById('modal-cantidad-input') as HTMLInputElement).value = '1';
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
-  // Estado disponible/no disponible
+  // Estado disponible/no disponible con cantidad en el modal
   const estado = document.getElementById('modal-producto-estado');
   if (estado) {
-    if (producto.disponible === false || producto.stock === 0) {
-      estado.textContent = 'No disponible';
+    if (producto.stock === 0) {
+      estado.textContent = 'Agotado';
       estado.classList.remove('food-card__status--ok');
       estado.classList.add('food-card__status--no');
     } else {
-      estado.textContent = producto.stock ? `Disponible (Stock: ${producto.stock})` : 'Disponible';
+      estado.textContent = `Disponible (${producto.stock} unidades)`;
       estado.classList.remove('food-card__status--no');
       estado.classList.add('food-card__status--ok');
     }

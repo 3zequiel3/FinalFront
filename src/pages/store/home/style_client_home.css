@@ -629,9 +629,9 @@ body {
     border-color: #00ff0012;
 }
 .food-card__status--no {
-    background: #e53935;
-    color: #fff;
-    border-color: #e53935;
+    background: #e5393521;
+    color: #e53935;
+    border-color: #e5393521;
 }
 
 @media (max-width: 900px) {

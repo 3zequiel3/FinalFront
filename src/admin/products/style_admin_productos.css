@@ -21,13 +21,14 @@
 
 .admin-producto-card-nombre {
     flex: 1 1 15%;
-    min-width: 90px;
-    font-size: 1.18rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: #fff;
     word-break: break-word;
     display: flex;
     align-items: center;
+    word-break: keep-all;
+    justify-content: center;
 }
 
 .admin-producto-card-desc {
@@ -38,6 +39,7 @@
     word-break: break-word;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .admin-producto-card-precio {
@@ -48,6 +50,7 @@
     text-align: left;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .admin-producto-card-categoria {
@@ -58,6 +61,7 @@
     text-align: left;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .admin-producto-card-stock {
@@ -87,8 +91,9 @@
 }
 
 .badge-stock.si {
-    background: #279d1a21;
-    color: #1ea60f;
+    background: linear-gradient(135deg, rgba(39, 157, 26, 0.3) 0%, rgba(30, 166, 15, 0.2) 100%);
+    color: #00ff9d;
+    border: 1px solid rgba(0, 255, 157, 0.3);
     border-radius: 12px;
     padding: 0.2em 0.9em;
     font-weight: 700;
@@ -97,8 +102,9 @@
 }
 
 .badge-stock.no {
-    background: #d9003621;
-    color: #ff4757;
+    background: #e5393521;
+    color: #e53935;
+    border: #e53935 1px solid;
     border-radius: 12px;
     padding: 0.2em 0.9em;
     font-weight: 700;
@@ -145,7 +151,9 @@
     box-sizing: border-box;
     letter-spacing: 0.02em;
     gap: 1rem;
+    
 }
+
 
 /* Asignar flex-basis/porcentajes a cada columna de la cabecera para alinear con las cards */
 .admin-productos-card-header-item.id {
@@ -916,11 +924,20 @@ body {
         margin-bottom: 0.5rem;
     }
 
-    .admin-producto-card-categoria,
-    .badge-stock.si {
+    .admin-producto-card-categoria {
         font-size: 0.7rem;
         padding: 0.35rem 0.5rem;
         border-radius: 6px;
+    }
+
+    .badge-stock.si {
+        background: linear-gradient(135deg, rgba(39, 157, 26, 0.3) 0%, rgba(30, 166, 15, 0.2) 100%);
+        color: #00ff9d;
+        border: 1px solid rgba(0, 255, 157, 0.3);
+        font-size: 0.7rem;
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+        font-weight: 700;
     }
 
     .admin-producto-card-actions {
@@ -962,6 +979,8 @@ body {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
     position: relative;
     color: #fff;
+    overflow: visible;
+    z-index: 10000;
 }
 
 .modal-close {
@@ -987,12 +1006,12 @@ body {
 }
 
 .modal-close:hover {
-    background: rgba(255, 255, 255, 0.2);
     transform: rotate(90deg);
 }
 
 .modal-content form {
     padding: 2rem 2rem 2rem 2rem;
+    overflow: visible;
 }
 
 .modal-title {
@@ -1006,19 +1025,20 @@ body {
 
 .modal-info-section {
     margin-bottom: 1rem;
+    overflow: visible;
 }
 
 .modal-content .input-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1.2rem;
 }
 
 .modal-content .input-group label {
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -1050,6 +1070,8 @@ body {
 .modal-content .input-group select {
     cursor: pointer;
     color: rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 10001;
 }
 
 .modal-content .input-group select option {
@@ -1059,12 +1081,16 @@ body {
 
 .modal-price-stock {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+    overflow: visible;
+    flex-wrap: wrap;
 }
 
 .modal-price-stock .input-group {
     flex: 1;
+    margin-bottom: 1rem;
+    overflow: visible;
 }
 
 .modal-content #addProductButton {
@@ -1140,6 +1166,11 @@ body {
     .modal-price-stock {
         flex-direction: column;
         gap: 0;
+        margin-top: 0;
+    }
+    
+    .modal-price-stock .input-group {
+        margin-bottom: 1.2rem;
     }
 
     .modal-content .input-group input,
@@ -1485,4 +1516,197 @@ body {
 
 .dropdown-menu li.active .dropdown-icon {
     color: #ff00ff;
+}
+
+/* =====================
+   Modal para eliminar producto
+====================== */
+.modal-delete-content {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 20px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    position: relative;
+    color: #fff;
+    overflow: hidden;
+}
+
+.modal-delete-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem 0 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-delete-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.modal-delete-body {
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.modal-delete-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+}
+
+.modal-delete-icon svg {
+    color: #ff4757;
+    background: rgba(255, 71, 87, 0.1);
+    border-radius: 50%;
+    padding: 0.8rem;
+    width: 48px;
+    height: 48px;
+}
+
+.modal-delete-message {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+}
+
+.modal-delete-message strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+.modal-delete-warning {
+    font-size: 0.95rem;
+    color: #ff4757;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.modal-delete-footer {
+    display: flex;
+    gap: 1rem;
+    padding: 0 2rem 2rem 2rem;
+    justify-content: center;
+}
+
+.btn-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+    max-width: 120px;
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+    max-width: 120px;
+    box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+}
+
+.btn-delete:hover {
+    background: linear-gradient(135deg, #ff3742 0%, #c23616 100%);
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(255, 71, 87, 0.4);
+}
+
+/* =====================
+   Autocomplete Styles para Categorías
+====================== */
+.autocomplete-container {
+    position: relative;
+}
+
+.autocomplete-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(42, 42, 78, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10002;
+    display: none;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.autocomplete-suggestions.show {
+    display: block;
+}
+
+.suggestion-item {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #E2E8F0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover,
+.suggestion-item.highlighted {
+    background-color: rgba(255, 0, 255, 0.2);
+    color: #F7FAFC;
+    backdrop-filter: blur(15px);
+}
+
+.suggestion-item.selected {
+    background-color: rgba(255, 0, 255, 0.4);
+    color: white;
+    font-weight: 600;
+}
+
+.no-suggestions {
+    padding: 0.75rem 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+    text-align: center;
+    font-size: 0.9rem;
+}
+    .btn-delete {
+        max-width: none;
+        width: 100%;
+    }
+
+/* =====================
+   Media Query para pantallas de escritorio únicamente
+====================== */
+@media (min-width: 700px) {
+    .admin-producto-card,
+    .admin-productos-cards-header {
+        min-width: 70rem;
+    }
 }
