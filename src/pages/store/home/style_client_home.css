@@ -414,7 +414,6 @@ body {
 
 #logoutButton:hover {
     background-color: var(--button-hover-background);
-    transform: scale(1.05);
 }
 
 /* --- Media Queries para Responsividad --- */
@@ -550,7 +549,6 @@ body {
 }
 .food-card:hover {
     box-shadow: 0 4px 18px 0 #ff00ff22, 0 1.5px 8px 0 #0006;
-    transform:  scale(1.015);
     border-color: #ff00ff;
 }
 .food-card__img {
@@ -624,14 +622,14 @@ body {
     transition: background 0.2s, color 0.2s, border 0.2s;
 }
 .food-card__status--ok {
-    background: #00ff0012;
-    color: #00ff00ad;
-    border-color: #00ff0012;
+    background: linear-gradient(135deg, rgba(39, 157, 26, 0.3) 0%, rgba(30, 166, 15, 0.2) 100%);
+    color: #00ff9d;
+    border: 1px solid rgba(0, 255, 157, 0.3);
 }
 .food-card__status--no {
     background: #e5393521;
     color: #e53935;
-    border-color: #e5393521;
+    border: #e53935 1px solid;
 }
 
 @media (max-width: 900px) {
@@ -694,4 +692,61 @@ body {
 .dropdown-menu li.active a {
     color: #ff00ff;
     font-weight: 600;
+}
+
+/* =====================
+   Estilos de badges de stock para la tienda
+====================== */
+
+/* Badge de stock - En Stock (Verde) */
+.badge-stock.si {
+    background: linear-gradient(135deg, rgba(39, 157, 26, 0.3) 0%, rgba(30, 166, 15, 0.2) 100%);
+    color: #00ff9d;
+    border: 1px solid rgba(0, 255, 157, 0.3);
+    border-radius: 12px;
+    padding: 0.2em 0.9em;
+    font-weight: 700;
+    font-size: 0.98em;
+    display: inline-block;
+}
+
+/* Badge de stock - Sin Stock (Rojo) */
+.badge-stock.no {
+    background: #e5393521;
+    color: #e53935;
+    border: #e53935 1px solid;
+    border-radius: 12px;
+    padding: 0.2em 0.9em;
+    font-weight: 700;
+    font-size: 0.98em;
+    display: inline-block;
+}
+
+/* Responsive para badges de stock en mobile */
+@media (max-width: 700px) {
+    .badge-stock.si {
+        padding: 0.4rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.75rem;
+    }
+
+    .badge-stock.no {
+        padding: 0.4rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .badge-stock.si {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+    }
+
+    .badge-stock.no {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+    }
 }

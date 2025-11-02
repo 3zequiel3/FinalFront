@@ -246,7 +246,6 @@ body {
 
 #logoutButton:hover {
     background-color: var(--button-hover-background);
-    transform: scale(1.05);
 }
 
 /* --- Media Queries para Responsividad --- */
@@ -356,4 +355,59 @@ body {
     color: #ff00ff;
 }
 
+/* =====================
+   Estilos de badges de stock para admin
+====================== */
 
+/* Badge de stock - En Stock (Verde) */
+.badge-stock.si {
+    background: linear-gradient(135deg, rgba(39, 157, 26, 0.3) 0%, rgba(30, 166, 15, 0.2) 100%);
+    color: #00ff9d;
+    border: 1px solid rgba(0, 255, 157, 0.3);
+    border-radius: 12px;
+    padding: 0.2em 0.9em;
+    font-weight: 700;
+    font-size: 0.98em;
+    display: inline-block;
+}
+
+/* Badge de stock - Sin Stock (Rojo) */
+.badge-stock.no {
+    background: #e5393521;
+    color: #e53935;
+    border: #e53935 1px solid;
+    border-radius: 12px;
+    padding: 0.2em 0.9em;
+    font-weight: 700;
+    font-size: 0.98em;
+    display: inline-block;
+}
+
+/* Responsive para badges de stock */
+@media (max-width: 700px) {
+    .badge-stock.si {
+        padding: 0.4rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.75rem;
+    }
+
+    .badge-stock.no {
+        padding: 0.4rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .badge-stock.si {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+    }
+
+    .badge-stock.no {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+    }
+}

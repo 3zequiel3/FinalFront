@@ -1,0 +1,67 @@
+/* =====================
+   Estilos globales para badges de stock
+====================== */
+
+/* Badge de stock - En Stock (Verde) */
+.badge-stock.si {
+    background: linear-gradient(135deg, rgba(39, 157, 26, 0.3) 0%, rgba(30, 166, 15, 0.2) 100%);
+    color: #00ff9d;
+    border: 1px solid rgba(0, 255, 157, 0.3);
+    border-radius: 12px;
+    padding: 0.2em 0.9em;
+    font-weight: 700;
+    font-size: 0.98em;
+    display: inline-block;
+}
+
+/* Badge de stock - Sin Stock (Rojo) */
+.badge-stock.no {
+    background: #e5393521;
+    color: #e53935;
+    border: #e53935 1px solid;
+    border-radius: 12px;
+    padding: 0.2em 0.9em;
+    font-weight: 700;
+    font-size: 0.98em;
+    display: inline-block;
+}
+
+/* Responsive - Tablets y móviles */
+@media (max-width: 700px) {
+    .badge-stock.si {
+        background: linear-gradient(135deg, rgba(39, 157, 26, 0.3) 0%, rgba(30, 166, 15, 0.2) 100%);
+        color: #00ff9d;
+        border: 1px solid rgba(0, 255, 157, 0.3);
+        padding: 0.4rem 0.6rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.75rem;
+    }
+
+    .badge-stock.no {
+        background: #e5393521;
+        color: #e53935;
+        border: #e53935 1px solid;
+        padding: 0.4rem 0.6rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.75rem;
+    }
+}
+
+/* Responsive - Móviles pequeños */
+@media (max-width: 480px) {
+    .badge-stock.si {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+        font-weight: 700;
+    }
+
+    .badge-stock.no {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.5rem;
+        border-radius: 6px;
+        font-weight: 700;
+    }
+}

@@ -130,7 +130,6 @@ body {
 
 #form button[type="submit"]:hover {
     background-color: var(--button-hover-background);
-    transform: scale(1.05);
 }
 
 /* --- Enlace de Registro --- */

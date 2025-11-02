@@ -258,11 +258,11 @@ body {
    Títulos y secciones
 ====================== */
 .admin-productos-header {
-    flex-direction: column;
-    gap: 0.8rem;
-    align-items: stretch;
-    margin: 0.6rem;
-    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
 }
 
 .admin-title {
@@ -275,7 +275,6 @@ body {
 .btn-nuevo-producto {
     font-size: 0.9rem;
     padding: 0.7rem 1rem;
-    width: 100%;
     border-radius: 10px;
     font-weight: 700;
     text-transform: uppercase;
@@ -289,7 +288,6 @@ body {
 
 .btn-nuevo-producto:hover {
     background-color: #ff00ff80;
-    transform: scale(1.05);
 }
 
 .admin-productos-list h2 {
@@ -369,7 +367,6 @@ body {
 
 .admin-producto-card .admin-btn-edit:hover {
     background: #bfc3c7;
-    transform: scale(1.05);
 }
 
 .admin-producto-card .admin-btn-delete {
@@ -379,7 +376,6 @@ body {
 
 .admin-producto-card .admin-btn-delete:hover {
     background: #a80027;
-    transform: scale(1.05);
 }
 
 /* --- Tabla de productos admin --- */
@@ -460,7 +456,6 @@ body {
 
 .admin-productos-table .admin-btn-edit:hover {
     background: #bfc3c7;
-    transform: scale(1.05);
 }
 
 .admin-productos-table .admin-btn-delete {
@@ -470,7 +465,6 @@ body {
 
 .admin-productos-table .admin-btn-delete:hover {
     background: #a80027;
-    transform: scale(1.05);
 }
 
 /* --- Ajuste de margen y fondo según sidebar (hereda de admin home) --- */
@@ -593,7 +587,6 @@ body {
 
 #addProductButton:hover {
     background: #d900d9;
-    transform: scale(1.05);
 }
 
 @media (max-width: 1100px) {
@@ -813,7 +806,6 @@ body {
 
     .admin-producto-card .admin-btn-edit:hover {
         background: #bfc3c7;
-        transform: scale(1.05);
     }
 
     .admin-producto-card .admin-btn-delete {
@@ -823,7 +815,6 @@ body {
 
     .admin-producto-card .admin-btn-delete:hover {
         background: #a80027;
-        transform: scale(1.05);
     }
 
     .btn-nuevo-producto {
@@ -861,7 +852,6 @@ body {
         flex-direction: column;
         gap: 0.6rem;
         align-items: stretch;
-        margin: 0.5rem;
         padding: 0;
     }
 
@@ -1116,12 +1106,7 @@ body {
 
 .modal-content #addProductButton:hover {
     background: linear-gradient(135deg, #ff5252 0%, #f44336 100%);
-    transform: scale(1.05);
     box-shadow: 0 12px 24px rgba(255, 107, 107, 0.5);
-}
-
-.modal-content #addProductButton:active {
-    transform: scale(1);
 }
 
 .modal-error {
@@ -1470,7 +1455,6 @@ body {
 
 #logoutButton:hover {
     background-color: var(--button-hover-background);
-    transform: scale(1.05);
 }
 
 /* --- Media Queries para Responsividad --- */
@@ -1612,7 +1596,6 @@ body {
 
 .btn-cancel:hover {
     background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.05);
 }
 
 .btn-delete {
@@ -1632,7 +1615,6 @@ body {
 
 .btn-delete:hover {
     background: linear-gradient(135deg, #ff3742 0%, #c23616 100%);
-    transform: scale(1.05);
     box-shadow: 0 6px 16px rgba(255, 71, 87, 0.4);
 }
 
