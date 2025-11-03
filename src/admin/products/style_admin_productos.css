@@ -259,10 +259,11 @@ body {
 ====================== */
 .admin-productos-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    width: 100%;
+        flex-direction: row;
+        gap: 16rem;
+        align-items: center;
+        padding: 1rem;
+        margin-bottom: 2rem;
 }
 
 .admin-title {
