@@ -1,5 +1,9 @@
 import { getUserLoggedName } from "../../utils/authLocal";
 import { checkAuthUser, logout } from "../../utils/authLocal";
+import { initBurgerMenu } from "../../utils/burger-menu";
+import { envs } from "../../utils/enviromentVariable";
+import { initLogoutButton } from "../../utils/logoutButton";
+import { initSidebar } from "../../utils/sidebar";
 
 // ---------------------------------------funcionalidad de sidebar de categorias-------------------------------
 
@@ -7,71 +11,15 @@ import { checkAuthUser, logout } from "../../utils/authLocal";
 const sidebar = document.getElementById('sidebar-categorias');
 const sidebarToggle = document.getElementById('sidebar-toggle');
 const contenedorContenido = document.querySelector('.contenedor-contenido-pagina');
-if (sidebar && sidebarToggle && contenedorContenido) {
-  const iconHamburguesa = document.getElementById('sidebar-toggle-icon-hamburguesa');
-  const iconX = document.getElementById('sidebar-toggle-icon-x');
-  function updateSidebarToggleIcon() {
-    if (!sidebar) return;
-    const isHidden = sidebar.classList.contains('sidebar-categorias--hidden');
-    if (iconHamburguesa && iconX) {
-      if (isHidden) {
-        iconHamburguesa.style.display = '';
-        iconX.style.display = 'none';
-      } else {
-        iconHamburguesa.style.display = 'none';
-        iconX.style.display = '';
-      }
-    }
-  }
-  sidebarToggle.addEventListener('click', () => {
-    const oculto = sidebar.classList.toggle('sidebar-categorias--hidden');
-    sidebarToggle.classList.add('bounce');
-    setTimeout(() => sidebarToggle.classList.remove('bounce'), 350);
-    if (oculto) {
-      contenedorContenido.classList.add('bg-rojo');
-    } else {
-      contenedorContenido.classList.remove('bg-rojo');
-    }
-    updateSidebarToggleIcon();
-  });
-  // Opcional: cerrar sidebar con tecla ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !sidebar.classList.contains('sidebar-categorias--hidden')) {
-      sidebar.classList.add('sidebar-categorias--hidden');
-      sidebarToggle.classList.add('bounce');
-      setTimeout(() => sidebarToggle.classList.remove('bounce'), 350);
-      contenedorContenido.classList.add('bg-rojo');
-      updateSidebarToggleIcon();
-    }
-  });
-  // Inicializar icono correcto al cargar
-  updateSidebarToggleIcon();
-}
 
-// ---------------------------------------Menú hamburguesa responsivo ------------------------------------------------------------------------
-document.addEventListener('DOMContentLoaded', function() {
-  const burger = document.getElementById('navbar-burger');
-  const links = document.getElementById('navbar-links');
-  if (burger && links) {
-    burger.addEventListener('click', function() {
-      links.classList.toggle('navbar-links--open');
-      burger.classList.toggle('open');
-    });
-  }
-
-  // Dropdown mobile
-  const dropdown = document.querySelector('.navbar-dropdown-mobile');
-  const dropdownToggle = dropdown?.querySelector('.dropdown-toggle') as HTMLButtonElement;
-
-  if (dropdown && dropdownToggle) {
-    dropdownToggle.addEventListener('click', function () {
-      const isOpen = dropdown.classList.toggle('open');
-      dropdownToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-  }
+// Funcionalidad del sidebar desde utils/sidebar.ts
+//Funcionalidad del menu hamburguesa desde utils/burger-menu.ts
+document.addEventListener('DOMContentLoaded', ()=>{
+  initSidebar(sidebar as HTMLElement, sidebarToggle as HTMLElement, contenedorContenido as HTMLElement);
+  initBurgerMenu();
+  initLogoutButton();
 });
 
-// --------------------------------------- Fin menú hamburguesa responsivo ------------------------------------------------------------------------
 
 // ----------------------------- Funcionalidad para marcar item activo en sidebar -------------------------------
 // Función para marcar item activo
@@ -79,10 +27,10 @@ function setActiveSidebarItem(itemLi: HTMLElement) {
   // Remover active de todos los li del sidebar
   const allSidebarLis = document.querySelectorAll('.sidebar-categorias li');
   allSidebarLis.forEach(li => li.classList.remove('active'));
-  
+
   // Agregar active al li clickeado
   itemLi.classList.add('active');
-  
+
   // También en el dropdown mobile
   const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
   allDropdownLis.forEach(li => li.classList.remove('active'));
@@ -94,13 +42,13 @@ window.addEventListener('DOMContentLoaded', () => {
   if (dashboardLi) {
     dashboardLi.classList.add('active');
   }
-  
+
   // También marcar en el dropdown mobile
   const dashboardDropdownLi = document.querySelector('.dropdown-menu li:first-child') as HTMLLIElement;
   if (dashboardDropdownLi) {
     dashboardDropdownLi.classList.add('active');
   }
-  
+
   // Agregar listeners a todos los items del sidebar
   const sidebarLinks = document.querySelectorAll('.sidebar-categorias li a');
   sidebarLinks.forEach(link => {
@@ -108,7 +56,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const li = (e.currentTarget as HTMLElement).closest('li') as HTMLLIElement;
       if (li) {
         setActiveSidebarItem(li);
-        
+
         // Sincronizar con dropdown mobile
         const linkText = li.textContent?.trim().toLowerCase();
         const dropdownItems = document.querySelectorAll('.dropdown-menu li');
@@ -123,7 +71,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-  
+
   // Agregar listeners al dropdown mobile
   const dropdownLinks = document.querySelectorAll('.dropdown-menu li a');
   dropdownLinks.forEach(link => {
@@ -134,7 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const allDropdownLis = document.querySelectorAll('.dropdown-menu li');
         allDropdownLis.forEach(item => item.classList.remove('active'));
         li.classList.add('active');
-        
+
         // Sincronizar con sidebar
         const linkText = li.textContent?.trim().toLowerCase();
         const sidebarItems = document.querySelectorAll('.sidebar-categorias li');
@@ -150,14 +98,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // ----------------------------- Fin funcionalidad item activo -------------------------------
-
-const buttonLogout = document.getElementById(
-  "logoutButton"
-) as HTMLButtonElement;
-buttonLogout?.addEventListener("click", () => {
-  logout();
-});
-
 
 const userNameElement = document.querySelector('.navbar-user') as HTMLLIElement;
 
@@ -189,7 +129,8 @@ buttonLogoutDesktop?.addEventListener("click", () => {
 });
 
 // --------------------------------------- Funcionalidad del Dashboard ------------------------------------------------------------------------
-import { envs } from "../../utils/enviromentVariable";
+
+
 
 const API_URL = envs.API_URL;
 
@@ -243,7 +184,8 @@ async function loadEstadisticas() {
 
     // Contar productos disponibles (asumiendo que todos están activos por ahora)
     if (cantDisponiblesEl) {
-      cantDisponiblesEl.textContent = productos.length.toString();
+      let productosDisponibles = productos.filter((prod: any) => prod.stock > 0);
+      cantDisponiblesEl.textContent = productosDisponibles.length.toString();
     }
 
     // Pedidos (por ahora en 0 ya que no está implementado)

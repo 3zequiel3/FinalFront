@@ -527,7 +527,7 @@ body {
     top: 90px;
     left: 10px;
     z-index: 1001;
-    background: #ff00ff;
+    background: var(--background-color);
     color: #fff;
     border: none;
     border-radius: 50%;
@@ -537,7 +537,6 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.6rem;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.18);
     cursor: pointer;
     transition: background 0.2s, color 0.2s, left 0.3s;
 }
