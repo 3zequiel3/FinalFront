@@ -3,7 +3,8 @@ export const initSidebar = (sidebar: HTMLElement, sidebarToggle: HTMLElement, co
 
     const baseClass = sidebar.classList[0];
     const hiddenClass = `${baseClass}--hidden`;
-
+    //Hola mundo
+    console.log("Iniciando sidebar");
     // Detectar si estamos en la página home
     const isHomePage = window.location.pathname.includes('/home');
 
