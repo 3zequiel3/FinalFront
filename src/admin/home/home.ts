@@ -167,6 +167,19 @@ async function getProductos() {
   }
 }
 
+// Función para obtener pedidos
+async function getPedidos() {
+  try {
+    const response = await fetch(`${API_URL}/pedidos`);
+    if (!response.ok) throw new Error('Error al obtener pedidos');
+    const pedidos = await response.json();
+    return pedidos;
+  } catch (error) {
+    console.error('Error:', error);
+    return [];
+  }
+}
+
 // Función para cargar estadísticas
 async function loadEstadisticas() {
   try {
@@ -188,10 +201,16 @@ async function loadEstadisticas() {
       cantDisponiblesEl.textContent = productosDisponibles.length.toString();
     }
 
-    // Pedidos (por ahora en 0 ya que no está implementado)
+    // Cargar pedidos
+    const pedidos = await getPedidos();
     if (cantPedidosEl) {
-      cantPedidosEl.textContent = '0';
+      cantPedidosEl.textContent = pedidos.length.toString();
     }
+
+    // Contar pedidos por estado
+    const pedidosPendientes = pedidos.filter((p: any) => p.estado === 'PENDIENTE').length;
+    const pedidosConfirmados = pedidos.filter((p: any) => p.estado === 'CONFIRMADO').length;
+    const pedidosTerminados = pedidos.filter((p: any) => p.estado === 'TERMINADO').length;
 
     // Actualizar resumen rápido
     if (resumenQuickEl) {
@@ -205,8 +224,17 @@ async function loadEstadisticas() {
         <p style="margin: 0.5rem 0; color: #ffffff;">
           ✅ <strong>${productos.length}</strong> productos disponibles
         </p>
-        <p style="margin: 0.5rem 0; color: #ffffff; font-style: italic;">
-          📦 Sistema de pedidos próximamente...
+        <p style="margin: 0.5rem 0; color: #ffffff;">
+          📦 <strong>${pedidos.length}</strong> pedidos totales
+        </p>
+        <p style="margin: 0.5rem 0; color: #ffc107;">
+          ⏳ <strong>${pedidosPendientes}</strong> pendientes
+        </p>
+        <p style="margin: 0.5rem 0; color: #2196f3;">
+          ✓ <strong>${pedidosConfirmados}</strong> confirmados
+        </p>
+        <p style="margin: 0.5rem 0; color: #4caf50;">
+          ✔ <strong>${pedidosTerminados}</strong> terminados
         </p>
       `;
     }
@@ -232,7 +260,7 @@ cards.forEach((card, index) => {
           window.location.href = '../products/products.html';
           break;
         case 2: // Pedidos
-          alert('Sistema de pedidos próximamente...');
+          window.location.href = '../orders/orders.html';
           break;
         default:
           break;

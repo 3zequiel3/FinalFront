@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Pedidos - Admin</title>
+    <link rel="stylesheet" href="../../sidebar_navbar.css">
+    <link rel="stylesheet" href="../../utils/scrollbar.css">
+    <link rel="stylesheet" href="./styles_orders.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body id="body">
+
+    <!-- Botón para mostrar/ocultar sidebar (solo desktop) -->
+    <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Mostrar/Ocultar categorías" tabindex="0">
+        <span id="sidebar-toggle-icon-hamburguesa"><i class="bi bi-list"></i></span>
+        <span id="sidebar-toggle-icon-x" style="display:none;"><i class="bi bi-x-lg"></i></span>
+    </button>
+
+    <nav class="navbar">
+        <button class="navbar-burger" id="navbar-burger" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+        </button>
+        <!-- Título e ícono solo visible en mobile -->
+        <div class="navbar-title-mobile">
+            <span class="navbar-logo">🍕 <span class="navbar-brand">FoodStore</span></span>
+        </div>
+        <ul class="navbar-links" id="navbar-links">
+            <li><a href="#">Tienda</a></li>
+            <li><a href="#">Panel Admin</a></li>
+            <li class="navbar-user"></li>
+            <!-- Dropdown mobile -->
+            <li class="navbar-dropdown-mobile">
+                <button class="dropdown-toggle" aria-expanded="false">Administracion ▼</button>
+                <ul class="dropdown-menu">
+                    <li><a href="../home/home.html"><span class="dropdown-icon">📊</span>
+                            Dashboard
+                        </a></li>
+                    <li><a href="../categories/categories.html"><span class="dropdown-icon">📁</span>
+                            Categorias
+                        </a></li>
+                    <li><a href="../products/products.html"><span class="dropdown-icon">🍔</span>
+                            Productos
+                        </a></li>
+                    <li><a href="../orders/orders.html"><span class="dropdown-icon">📦</span>
+                            Pedidos
+                        </a></li>
+                    <li><a href="#"><span class="dropdown-icon">🏪</span>
+                            Ver Tienda
+                        </a></li>
+                </ul>
+            </li>
+            <li class="navbar-logout-mobile"><button id="logoutButton" class="navbar-logout">Cerrar Sesión</button></li>
+            <li class="navbar-logout-desktop"><button id="logoutButtonDesktop" class="navbar-logout">Cerrar Sesión</button></li>
+        </ul>
+    </nav>
+
+    <aside class="sidebar-categorias" id="sidebar-categorias">
+        <div class="sidebar-categorias__title">Administración</div>
+        <div class="sidebar-categorias__subtitle">Pedidos</div>
+        <ul>
+            <li><a href="../home/home.html"><span class="dropdown-icon">📊</span>
+                    <p class="dropdown-icon-p">Dashboard</p>
+                </a></li>
+            <li><a href="../categories/categories.html"><span class="dropdown-icon">📁</span>
+                    <p class="dropdown-icon-p">Categorias</p>
+                </a></li>
+            <li><a href="../products/products.html"><span class="dropdown-icon">🍔</span>
+                    <p class="dropdown-icon-p">Productos</p>
+                </a></li>
+            <li><a href="../orders/orders.html"><span class="dropdown-icon">📦</span>
+                    <p class="dropdown-icon-p">Pedidos</p>
+                </a></li>
+            <hr>
+            <li><a href="#"><span class="dropdown-icon">🏪</span>
+                    <p class="dropdown-icon-p">Ver Tienda</p>
+                </a></li>
+        </ul>
+    </aside>
+
+    <div class="contenedor-contenido-pagina">
+        <div class="orders-header">
+            <div>
+                <h1 class="orders-title">Gestión de Pedidos</h1>
+                <p class="orders-subtitle">Administra todos los pedidos de los clientes</p>
+            </div>
+            <div class="orders-filters">
+                <select class="orders-filter">
+                    <option value="todos">Todos los pedidos</option>
+                    <option value="PENDIENTE">Pendientes</option>
+                    <option value="CONFIRMADO">Confirmados</option>
+                    <option value="CANCELADO">Cancelados</option>
+                    <option value="TERMINADO">Terminados</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="orders-stats">
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: rgba(255, 193, 7, 0.2); color: #ffc107;">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="stat-pendientes">0</h3>
+                    <p>Pendientes</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: rgba(33, 150, 243, 0.2); color: #2196f3;">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="stat-confirmados">0</h3>
+                    <p>Confirmados</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: rgba(76, 175, 80, 0.2); color: #4caf50;">
+                    <i class="bi bi-check2-all"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="stat-terminados">0</h3>
+                    <p>Terminados</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background-color: rgba(244, 67, 54, 0.2); color: #f44336;">
+                    <i class="bi bi-x-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="stat-cancelados">0</h3>
+                    <p>Cancelados</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="orders-container">
+            <!-- Los pedidos se renderizarán dinámicamente aquí -->
+        </div>
+    </div>
+
+    <!-- Modal de detalle del pedido -->
+    <div id="modal-detalle-pedido" class="modal-detalle">
+        <div class="modal-detalle-content custom-scrollbar-modal">
+            <button class="modal-detalle-close">&times;</button>
+            
+            <div class="modal-detalle-header">
+                <h2 class="modal-detalle-title">Pedido #<span id="modal-pedido-id"></span></h2>
+                <span id="modal-pedido-estado" class="order-status"></span>
+            </div>
+
+            <div class="modal-detalle-fecha">
+                <i class="bi bi-calendar"></i>
+                <span id="modal-pedido-fecha"></span>
+            </div>
+
+            <div class="modal-detalle-section">
+                <h3 class="modal-section-title">
+                    <i class="bi bi-person"></i> Información del Cliente
+                </h3>
+                <div class="modal-info-grid">
+                    <div class="modal-info-item">
+                        <strong>Nombre del Cliente:</strong>
+                        <span id="modal-usuario-id"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-detalle-section">
+                <h3 class="modal-section-title">
+                    <i class="bi bi-geo-alt"></i> Información de Entrega
+                </h3>
+                <div class="modal-info-grid">
+                    <div class="modal-info-item">
+                        <strong>Dirección:</strong>
+                        <span id="modal-direccion"></span>
+                    </div>
+                    <div class="modal-info-item">
+                        <strong>Teléfono:</strong>
+                        <span id="modal-telefono"></span>
+                    </div>
+                    <div class="modal-info-item">
+                        <strong>Método de pago:</strong>
+                        <span id="modal-metodo-pago"></span>
+                    </div>
+                    <div class="modal-info-item full-width" id="modal-notas-container" style="display: none;">
+                        <strong>Notas adicionales:</strong>
+                        <span id="modal-notas"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-detalle-section">
+                <h3 class="modal-section-title">
+                    <i class="bi bi-bag"></i> Productos
+                </h3>
+                <div id="modal-productos-lista" class="modal-productos-lista">
+                    <!-- Los productos se renderizarán aquí -->
+                </div>
+            </div>
+
+            <div class="modal-detalle-totales">
+                <div class="modal-total-row">
+                    <span>Subtotal:</span>
+                    <span id="modal-subtotal"></span>
+                </div>
+                <div class="modal-total-row modal-total-final">
+                    <span>Total:</span>
+                    <span id="modal-total"></span>
+                </div>
+            </div>
+
+            <div class="modal-detalle-actions">
+                <h3 class="modal-section-title">
+                    <i class="bi bi-gear"></i> Cambiar Estado
+                </h3>
+                <div class="modal-actions-buttons">
+                    <button class="btn-action btn-action-confirmado" data-estado="CONFIRMADO">
+                        <i class="bi bi-check-circle"></i> Confirmar
+                    </button>
+                    <button class="btn-action btn-action-terminado" data-estado="TERMINADO">
+                        <i class="bi bi-check2-all"></i> Terminar
+                    </button>
+                    <button class="btn-action btn-action-cancelado" data-estado="CANCELADO">
+                        <i class="bi bi-x-circle"></i> Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./orders.ts"></script>
+</body>
+</html>

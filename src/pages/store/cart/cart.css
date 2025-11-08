@@ -53,6 +53,11 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    border-radius: 1rem;
+}
+
+.cart-items-container.cart-empty {
+    background: #1e1e1e;
 }
 
 /* Tarjeta de item del carrito */
@@ -63,14 +68,6 @@ body {
     display: flex;
     gap: 1.5rem;
     align-items: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s;
-}
-
-.cart-item-card:hover {
-    border-color: rgba(255, 0, 255, 0.3);
-    box-shadow: 0 6px 20px rgba(255, 0, 255, 0.2);
 }
 
 /* Imagen del producto */
@@ -191,11 +188,9 @@ body {
 
 /* Tarjeta de resumen */
 .cart-summary-card {
-    background: linear-gradient(135deg, #23235a 0%, #1a1a3e 100%);
-    border-radius: 20px;
+    background: #1e1e1e;
+    border-radius: 1rem;
     padding: 2rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 0, 255, 0.2);
     height: fit-content;
     position: sticky;
     top: 6rem;
@@ -248,9 +243,9 @@ body {
 /* Botones del resumen */
 .cart-btn-checkout {
     width: 100%;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-    color: #fff;
-    border: none;
+    background: rgba(0, 217, 139, 0.2);
+    color: #00d98b;
+    border: 1px solid rgba(0, 217, 139, 0.4);
     border-radius: 12px;
     padding: 1rem;
     font-size: 1.1rem;
@@ -260,12 +255,11 @@ body {
     transition: all 0.3s;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
 }
 
 .cart-btn-checkout:hover {
-    background: linear-gradient(135deg, #ff5252 0%, #f44336 100%);
-    box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+    background: rgba(0, 217, 139, 0.3);
+    border-color: #00d98b;
 }
 
 .cart-btn-clear {
@@ -382,5 +376,443 @@ body {
 
 .cart-items-container a:hover {
     text-decoration: underline;
+}
+
+/* ==================== MODAL CHECKOUT ==================== */
+.modal-checkout {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-checkout__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.modal-checkout__content {
+    position: relative;
+    background: var(--card-background);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-checkout__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 0, 255, 0.2);
+    border: 1px solid rgba(255, 0, 255, 0.3);
+    color: #ff00ff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.modal-checkout__close:hover {
+    background: rgba(255, 0, 255, 0.4);
+    transform: rotate(90deg);
+}
+
+.modal-checkout__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Resumen en el modal */
+.modal-checkout__summary {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-checkout__summary h3 {
+    font-size: 1.2rem;
+    color: #ff00ff;
+    margin-bottom: 1rem;
+}
+
+.modal-checkout__items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.modal-checkout__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+}
+
+.modal-checkout__item-name {
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.modal-checkout__item-qty {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
+.modal-checkout__item-price {
+    color: #ff00ff;
+    font-weight: 600;
+}
+
+.modal-checkout__totals {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+.modal-checkout__row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.modal-checkout__total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-top: 0.5rem;
+}
+
+.modal-checkout__total span:last-child {
+    color: #ff00ff;
+}
+
+/* Formulario */
+.modal-checkout__form h3 {
+    font-size: 1.2rem;
+    color: #ff00ff;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-group label i {
+    color: #ff00ff;
+    margin-right: 0.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.9rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s;
+    font-family: var(--primary-font);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #ff00ff;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(255, 0, 255, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.form-group select {
+    cursor: pointer;
+}
+
+.form-group select option {
+    background: #1e1e1e;
+    color: #fff;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Acciones del modal */
+.modal-checkout__actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.modal-checkout__actions button {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #ff00ff 0%, #d900d9 100%);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0px 13px rgba(255, 0, 255, 0.6);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-checkout__content {
+        padding: 1.5rem;
+        max-width: 95%;
+    }
+
+    .modal-checkout__title {
+        font-size: 1.4rem;
+    }
+
+    .modal-checkout__actions {
+        flex-direction: column;
+    }
+
+    .modal-checkout__actions button {
+        width: 100%;
+    }
+}
+
+/* ==================== MODAL ALERT ==================== */
+.modal-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-alert__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.modal-alert__content {
+    position: relative;
+    background: var(--card-background);
+    border-radius: 20px;
+    padding: 2.5rem;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    animation: modalAlertIn 0.3s ease;
+}
+
+@keyframes modalAlertIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-alert__icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.modal-alert__icon.success {
+    color: #00ff88;
+}
+
+.modal-alert__icon.error {
+    color: #ff4757;
+}
+
+.modal-alert__icon.warning {
+    color: #ffd700;
+}
+
+.modal-alert__icon.info {
+    color: #00d4ff;
+}
+
+.modal-alert__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 1rem 0;
+}
+
+.modal-alert__message {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin: 0 0 2rem 0;
+    white-space: pre-line;
+}
+
+.modal-alert__btn {
+    background: linear-gradient(135deg, #ff00ff 0%, #d900d9 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.modal-alert__btn:hover {
+    box-shadow: 0 0px 14px rgba(255, 0, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+    .modal-alert__content {
+        padding: 2rem;
+        max-width: 90%;
+    }
+
+    .modal-alert__icon {
+        font-size: 3rem;
+    }
+
+    .modal-alert__title {
+        font-size: 1.3rem;
+    }
+
+    .modal-alert__message {
+        font-size: 0.95rem;
+    }
+}
+
+/* ==================== MODAL CONFIRM ==================== */
+.modal-confirm__actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.modal-confirm__btn {
+    flex: 1;
+    padding: 0.9rem 2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+}
+
+.modal-confirm__btn-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.modal-confirm__btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.modal-confirm__btn-accept {
+    background: linear-gradient(135deg, #ff00ff 0%, #d900d9 100%);
+    color: #fff;
+}
+
+.modal-confirm__btn-accept:hover {
+    box-shadow: 0 0px 13px rgba(255, 0, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+    .modal-confirm__actions {
+        flex-direction: column;
+    }
+
+    .modal-confirm__btn {
+        width: 100%;
+    }
 }
 

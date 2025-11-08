@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras</title>
     <link rel="stylesheet" href="../../../sidebar_navbar.css">
+    <link rel="stylesheet" href="../../../utils/scrollbar.css">
     <link rel="stylesheet" href="./cart.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
@@ -21,7 +22,7 @@
         </div>
         <ul class="navbar-links" id="navbar-links">
             <li><a href="../home/home.html">Inicio</a></li>
-            <li><a href="#">Mis Pedidos</a></li>
+            <li><a href="../orders/orders.html">Mis Pedidos</a></li>
             <li class="navbar-cart">
                 <span class="cart-icon">🛒</span>
                 <span class="cart-badge">0</span>
@@ -67,7 +68,124 @@
         </div>
     </div>
 
+    <!-- Modal para proceder al pago -->
+    <div id="modal-checkout" class="modal-checkout" style="display:none;">
+        <div class="modal-checkout__overlay"></div>
+        <div class="modal-checkout__content custom-scrollbar-modal">
+            <button class="modal-checkout__close" id="modal-checkout-close">&times;</button>
+            
+            <h2 class="modal-checkout__title">Confirmar Pedido</h2>
+            
+            <!-- Resumen del pedido -->
+            <div class="modal-checkout__summary">
+                <h3>Resumen de tu pedido</h3>
+                <div id="modal-checkout-items" class="modal-checkout__items">
+                    <!-- Items se renderizarán dinámicamente -->
+                </div>
+                <div class="modal-checkout__totals">
+                    <div class="modal-checkout__row">
+                        <span>Subtotal:</span>
+                        <span id="modal-subtotal">$0.00</span>
+                    </div>
+                    <div class="modal-checkout__row">
+                        <span>Envío:</span>
+                        <span id="modal-shipping">$0.00</span>
+                    </div>
+                    <hr>
+                    <div class="modal-checkout__row modal-checkout__total">
+                        <span>Total:</span>
+                        <span id="modal-total">$0.00</span>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Formulario de datos de entrega -->
+            <form id="form-checkout" class="modal-checkout__form">
+                <h3>Datos de Entrega</h3>
+                
+                <div class="form-group">
+                    <label for="checkout-direccion">
+                        <i class="bi bi-geo-alt"></i> Dirección de Entrega *
+                    </label>
+                    <input 
+                        type="text" 
+                        id="checkout-direccion" 
+                        name="direccion" 
+                        placeholder="Ej: Calle Falsa 1234"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="checkout-telefono">
+                        <i class="bi bi-telephone"></i> Teléfono de Contacto *
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="checkout-telefono" 
+                        name="telefono" 
+                        placeholder="Ej: 2617047380"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="checkout-metodoPago">
+                        <i class="bi bi-credit-card"></i> Método de Pago *
+                    </label>
+                    <select id="checkout-metodoPago" name="metodoPago" required>
+                        <option value="">Selecciona un método</option>
+                        <option value="EFECTIVO">Efectivo</option>
+                        <option value="TRANSFERENCIA_BANCARIA">Transferencia Bancaria</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="checkout-notas">
+                        <i class="bi bi-chat-left-text"></i> Notas Adicionales (Opcional)
+                    </label>
+                    <textarea 
+                        id="checkout-notas" 
+                        name="notasAdicionales" 
+                        placeholder="Ej: Tocar timbre 3 veces"
+                        rows="3"
+                    ></textarea>
+                </div>
+
+                <div class="modal-checkout__actions">
+                    <button type="button" class="btn-secondary" id="btn-cancel-checkout">Cancelar</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="bi bi-check-circle"></i> Confirmar Pedido
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Alerta -->
+    <div id="modal-alert" class="modal-alert" style="display: none;">
+        <div class="modal-alert__overlay"></div>
+        <div class="modal-alert__content">
+            <i id="modal-alert-icon" class="bi bi-info-circle modal-alert__icon"></i>
+            <h3 id="modal-alert-title" class="modal-alert__title">Información</h3>
+            <p id="modal-alert-message" class="modal-alert__message"></p>
+            <button id="modal-alert-close" class="modal-alert__btn">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div id="modal-confirm" class="modal-alert" style="display: none;">
+        <div class="modal-alert__overlay"></div>
+        <div class="modal-alert__content">
+            <i id="modal-confirm-icon" class="bi bi-question-circle-fill modal-alert__icon warning"></i>
+            <h3 id="modal-confirm-title" class="modal-alert__title">Confirmar acción</h3>
+            <p id="modal-confirm-message" class="modal-alert__message"></p>
+            <div class="modal-confirm__actions">
+                <button id="modal-confirm-cancel" class="modal-confirm__btn modal-confirm__btn-cancel">Cancelar</button>
+                <button id="modal-confirm-accept" class="modal-confirm__btn modal-confirm__btn-accept">Aceptar</button>
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="./cart.ts"></script>
 </body>
