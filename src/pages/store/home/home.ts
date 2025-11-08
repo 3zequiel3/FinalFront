@@ -1,8 +1,8 @@
 
 import { envs } from "../../../utils/enviromentVariable.ts";
-import { getUserLoggedName } from "../../../utils/authLocal.ts";
 import {checkAuthUser, logout } from "../../../utils/authLocal.ts";
 import type { ICategory } from "../../../types/ICategory.ts";
+import { addToCart, updateCartBadge } from "../../../utils/cart.ts";
 
 const API_URL = envs.API_URL;
 
@@ -17,10 +17,13 @@ const contenedorContenido = document.querySelector('.contenedor-contenido-pagina
 import { initBurgerMenu } from "../../../utils/burger-menu.ts";
 import { initLogoutButton } from "../../../utils/logoutButton.ts";
 import { initSidebar } from "../../../utils/sidebar.ts";
+import { initNavbar, closeNavbarMobileMenu } from "../../../utils/navbar.ts";
+
 document.addEventListener('DOMContentLoaded', ()=>{
   initSidebar(sidebar as HTMLElement, sidebarToggle as HTMLElement, contenedorContenido as HTMLElement);
   initBurgerMenu();
   initLogoutButton();
+  initNavbar({ cartUrl: '../cart/cart.html' });
 });
 
 // --------------------------------------- Fin menú hamburguesa responsivo ------------------------------------------------------------------------
@@ -45,18 +48,6 @@ const initPage = () => {
   console.log("inicio de pagina");
   checkAuthUser('CLIENT');
 };
-
-const userNameElement = document.querySelector('.navbar-user') as HTMLLIElement;
-
-
-const displayUserName = () => {
-  const name = getUserLoggedName();
-  console.log("Nombre de usuario obtenido:", name);
-  userNameElement.textContent = name;
-};
-displayUserName();
-
-
 
 
 
@@ -238,7 +229,10 @@ function renderProductos(productos: Producto[]) {
 }
 
 // Modal producto
+let productoActual: any = null; // Variable para guardar el producto actual del modal
+
 function mostrarModalProducto(producto: any) {
+  productoActual = producto; // Guardar producto actual
   const modal = document.getElementById('modal-producto') as HTMLElement;
   if (!modal) return;
   (document.getElementById('modal-producto-img') as HTMLImageElement).src = producto.imgUrl;
@@ -288,6 +282,47 @@ window.addEventListener('DOMContentLoaded', () => {
     btnVolver.addEventListener('click', () => {
       modalProducto.style.display = 'none';
       document.body.style.overflow = '';
+    });
+  }
+
+  // Botón "Agregar al Carrito"
+  const btnAgregarCarrito = document.getElementById('modal-agregar-carrito') as HTMLButtonElement;
+  if (btnAgregarCarrito) {
+    btnAgregarCarrito.addEventListener('click', () => {
+      if (!productoActual) return;
+      
+      const cantidadInput = document.getElementById('modal-cantidad-input') as HTMLInputElement;
+      const cantidad = parseInt(cantidadInput.value, 10) || 1;
+
+      // Crear objeto del item para el carrito
+      const cartItem = {
+        id: productoActual.id,
+        nombre: productoActual.nombre,
+        descripcion: productoActual.descripcion || '',
+        precio: productoActual.precio,
+        imagen: productoActual.imgUrl,
+        cantidad: cantidad,
+        categoria: productoActual.categoriaNombre || ''
+      };
+
+      // Agregar al carrito
+      addToCart(cartItem);
+      
+      // Actualizar badge del carrito
+      updateCartBadge();
+
+      // Cerrar modal
+      const modal = document.getElementById('modal-producto') as HTMLElement;
+      if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+
+      // Resetear cantidad a 1
+      cantidadInput.value = '1';
+
+      // Mostrar feedback (opcional)
+      alert(`${productoActual.nombre} agregado al carrito (${cantidad} unidad${cantidad > 1 ? 'es' : ''})`);
     });
   }
 });
@@ -414,12 +449,7 @@ window.addEventListener('DOMContentLoaded', () => {
           }
         }
         // Cerrar menú hamburguesa móvil
-        const links = document.getElementById('navbar-links');
-        const burger = document.getElementById('navbar-burger');
-        if (links && burger) {
-          links.classList.remove('navbar-links--open');
-          burger.classList.remove('open');
-        }
+        closeNavbarMobileMenu();
       }
     });
   }
@@ -448,3 +478,28 @@ cargarProductos();
 
 
 // ---------------------------------fin funcionalidad de modal de productos-----------------------------------------
+
+
+
+async function obtenerPedidos() {
+  try {
+    const response = await fetch('http://localhost:5020/pedidos', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error('Error al obtener pedidos');
+    }
+    
+    const pedidos = await response.json();
+    console.log(pedidos);
+    return pedidos;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+obtenerPedidos();

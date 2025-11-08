@@ -37,10 +37,30 @@ const API_URL = envs.API_URL;
 
 export const checkAuthUser = async (rolEsperado?: Rol) => {
   console.log("comienzo de checkeo");
+  
+  // Primero verificar localStorage
+  const localUser = getUSer();
+  if (!localUser) {
+    console.log("No hay usuario en localStorage");
+    navigate(SRC_LOGIN);
+    return;
+  }
+
+  // Si hay usuario en localStorage, intentar obtenerlo del API
   const user: IUser = await getUser();
   if (!user) {
-    console.log("No hay usuario autenticado");
-    navigate(SRC_LOGIN);
+    console.log("No se pudo obtener usuario del API, pero existe en localStorage");
+    // Usar datos de localStorage como fallback
+    const parsedLocalUser: IUserLogin = JSON.parse(localUser);
+    const role = (parsedLocalUser.role ?? "") as Rol;
+    
+    if(rolEsperado){
+      if(role !== rolEsperado){
+        rolAuth(role);
+        return;
+      }
+      return;
+    }
     return;
   }
 
