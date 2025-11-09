@@ -124,8 +124,8 @@ export const updateCartBadge = (): void => {
 };
 
 /**
- * Formatea un número como precio en pesos colombianos
+ * Formatea un número como precio en pesos Argentinos
  */
 export const formatPrice = (price: number): string => {
-    return `$${price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    return `$${price.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
