@@ -1,0 +1,108 @@
+/* ==================== SCROLLBAR PERSONALIZADA ==================== */
+/* Estilos personalizados para scrollbar siguiendo los colores de la empresa */
+
+/* Scrollbar para cualquier elemento con la clase .custom-scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 255, 0.4);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 0, 255, 0.6);
+}
+
+/* Para Firefox */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 0, 255, 0.4) rgba(255, 255, 255, 0.05);
+}
+
+/* ==================== VARIANTES DE SCROLLBAR ==================== */
+
+/* Scrollbar más delgada (5px) */
+.custom-scrollbar-thin::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.custom-scrollbar-thin::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.custom-scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 255, 0.4);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.custom-scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 0, 255, 0.6);
+}
+
+.custom-scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 0, 255, 0.4) rgba(255, 255, 255, 0.05);
+}
+
+/* Scrollbar para modales (con borde redondeado específico) */
+.custom-scrollbar-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scrollbar-modal::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0 16px 16px 0;
+}
+
+.custom-scrollbar-modal::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 255, 0.4);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.custom-scrollbar-modal::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 0, 255, 0.6);
+}
+
+.custom-scrollbar-modal {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 0, 255, 0.4) rgba(255, 255, 255, 0.05);
+}
+
+/* Scrollbar oscura (para fondos más claros) */
+.custom-scrollbar-dark::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scrollbar-dark::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.custom-scrollbar-dark::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 255, 0.5);
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.custom-scrollbar-dark::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 0, 255, 0.7);
+}
+
+.custom-scrollbar-dark {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 0, 255, 0.5) rgba(0, 0, 0, 0.1);
+}

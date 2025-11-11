@@ -1,5 +1,5 @@
 import type { ICategory } from "../../types/ICategory";
-import type { IProductoCreate } from "../../types/IProducto";
+import type { IProducto, IProductoCreate } from "../../types/IProducto";
 import { envs } from "../../utils/enviromentVariable";
 
 // ----------------------------- Funcionalidad para marcar item activo en sidebar -------------------------------
@@ -18,7 +18,7 @@ function setActiveSidebarItem(itemLi: HTMLElement) {
 }
 
 // Marcar Productos como activo por defecto al cargar la página
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   // Buscar el item "Productos" en el sidebar (tercer li)
   const productosLi = document.querySelector('.sidebar-categorias ul li:nth-child(3)') as HTMLLIElement;
   if (productosLi) {
@@ -147,7 +147,7 @@ function initAutocomplete() {
 }
 
 function showSuggestions(query: string) {
-    if (!suggestionsList) return;
+    // if (!suggestionsList) return;
 
     const filteredCategories = allCategories
         .filter(cat => cat.nombre.toLowerCase().includes(query))
@@ -210,14 +210,14 @@ function selectSuggestion(item: HTMLDivElement) {
     item.classList.add('selected');
 }
 
-function setSelectedCategory(categoryId: string | null) {
-    if (!categoryId || !inputCategoriaProducto || !hiddenCategoriaProductoId) return;
-    
-    const category = allCategories.find(cat => cat.id === categoryId);
+function setSelectedCategory(categoryNombre: string | null) {
+    if (!categoryNombre || !inputCategoriaProducto || !hiddenCategoriaProductoId) return;
+
+    const category = allCategories.find(cat => cat.nombre === categoryNombre);
     if (category) {
         inputCategoriaProducto.value = category.nombre;
-        hiddenCategoriaProductoId.value = categoryId;
-        selectedCategoryId = categoryId;
+        hiddenCategoriaProductoId.value = category.id;
+        selectedCategoryId = category.id.toString();
     }
 }
 
@@ -439,11 +439,11 @@ form?.addEventListener("submit", async (e) => {
  
 async function getCategories() {
     try {
-        const response = await fetch(`${API_URL}/categorias`);
+        const response: Response= await fetch(`${API_URL}/categorias`);
         if (!response.ok) {
             throw new Error(`Error fetching categories: ${response.statusText}`);
         }
-        const categories = await response.json();
+        const categories: ICategory[] = await response.json();
         return categories;
     } catch (error) {
         console.error("Error fetching categories:", error);
@@ -454,11 +454,11 @@ async function getCategories() {
 
 async function getProducts() {
     try {
-        const response = await fetch(`${API_URL}/productos`);
+        const response: Response = await fetch(`${API_URL}/productos`);
         if (!response.ok) {
             throw new Error(`Error fetching products: ${response.statusText}`);
         }
-        const products = await response.json();
+        const products: IProducto[] = await response.json();
         return products;
     } catch (error) {
         console.error("Error fetching products:", error);
@@ -481,9 +481,9 @@ function createCategoryOption(categories: ICategory[]) {
 // ----------------------Función para mostrar los productos en la lista-----------------------
 
 async function displayProducts() {
-    const products = await getProducts();
+    const products: IProducto[] = await getProducts();
     productList.innerHTML = "";
-    products.forEach((product: any) => {
+    products.forEach((product: IProducto) => {
         const card = document.createElement("div");
         card.className = "admin-producto-card";
         
@@ -491,7 +491,7 @@ async function displayProducts() {
         const stockClase = product.stock > 0 ? 'si' : 'no';
         
         // Usar imagen del producto o fallback
-        const imagenUrl = product.imagen || 'https://cdn-icons-png.flaticon.com/512/3075/3075977.png';
+        const imagenUrl = product.imagen || 'https://media.istockphoto.com/id/1370680978/es/vector/signo-de-interrogaci%C3%B3n-icono-con-sombra-larga-sobre-fondo-en-blanco-dise%C3%B1o-plano.jpg?s=612x612&w=0&k=20&c=WqX7nuPi9SCRir5eVaNBbpuMEDfmjLObJJmdfw6S-5U=';
         
         card.innerHTML = `
             <div class="admin-producto-card-id">ID: #${product.id ?? ''}</div>
@@ -526,7 +526,7 @@ async function displayProducts() {
                 createCategoryOption(categories);
                 
                 // Establecer la categoría seleccionada inmediatamente después de cargar las categorías
-                setSelectedCategory(product.categoriaId?.toString() || null);
+                setSelectedCategory(product.categoriaNombre);
             } catch (error) {
                 console.error("Error loading categories:", error);
             }
@@ -555,7 +555,7 @@ async function displayProducts() {
             }
             
             // Guardar el ID del producto en el formulario para saber que estamos editando
-            form.dataset.editingId = product.id.toString();
+            form.dataset.editingId = product.id?.toString() || '';
             
             // Abrir el modal
             modal.style.display = "flex";

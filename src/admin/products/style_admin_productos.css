@@ -259,10 +259,11 @@ body {
 ====================== */
 .admin-productos-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    width: 100%;
+        flex-direction: row;
+        gap: 16rem;
+        align-items: center;
+        padding: 1rem;
+        margin-bottom: 2rem;
 }
 
 .admin-title {
@@ -849,9 +850,10 @@ body {
     } 
 
     .admin-productos-header {
+        display: flex;
         flex-direction: column;
         gap: 0.6rem;
-        align-items: stretch;
+        align-items: center;
         padding: 0;
     }
 
@@ -865,7 +867,7 @@ body {
     .btn-nuevo-producto {
         font-size: 0.85rem;
         padding: 0.65rem 0.9rem;
-        width: 100%;
+        width: 80%;
         border-radius: 10px;
         font-weight: 700;
         text-transform: uppercase;

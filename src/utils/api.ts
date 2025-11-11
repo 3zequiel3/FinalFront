@@ -1,5 +1,6 @@
 import { envs } from "./enviromentVariable";
 
+// const API_URL es una constante que almacena la URL base de la API, obtenida de las variables de entorno.
 const API_URL = envs.API_URL;
 export async function getUsers() {
     try {
