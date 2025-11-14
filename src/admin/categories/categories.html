@@ -26,7 +26,7 @@
             <span class="navbar-logo">🍕 <span class="navbar-brand">FoodStore</span></span>
         </div>
         <ul class="navbar-links" id="navbar-links">
-            <li><a href="#">Tienda</a></li>
+            <li><a href="../home/home.html">Tienda</a></li>
             <li><a href="../home/home.html">Panel Admin</a></li>
             <li class="navbar-user"></li>
             <!-- Dropdown mobile -->
@@ -116,6 +116,18 @@
             </form>
         </div>
     </div>
+
+    <!-- Modal de Alerta -->
+    <div id="modal-alert" class="modal-alert" style="display: none;">
+        <div class="modal-alert__overlay"></div>
+        <div class="modal-alert__content">
+            <i id="modal-alert-icon" class="bi bi-info-circle modal-alert__icon"></i>
+            <h3 id="modal-alert-title" class="modal-alert__title">Información</h3>
+            <p id="modal-alert-message" class="modal-alert__message"></p>
+            <button id="modal-alert-close" class="modal-alert__btn">Aceptar</button>
+        </div>
+    </div>
+
     <script type="module" src="./categories.ts"></script>
     <script type="module" src="./sidebar_navbar_admin_categories.ts"></script>
 </body>

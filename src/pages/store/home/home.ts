@@ -24,9 +24,86 @@ document.addEventListener('DOMContentLoaded', ()=>{
   initBurgerMenu();
   initLogoutButton();
   initNavbar({ cartUrl: '../cart/cart.html' });
+  configurarModalAlert();
 });
 
 // --------------------------------------- Fin menú hamburguesa responsivo ------------------------------------------------------------------------
+
+/**
+ * Tipo de alerta para el modal
+ */
+type AlertType = 'success' | 'error' | 'warning' | 'info';
+
+/**
+ * Muestra un modal de alerta personalizado
+ */
+function mostrarAlerta(mensaje: string, tipo: AlertType = 'info', titulo?: string): void {
+    const modal = document.getElementById('modal-alert') as HTMLElement;
+    const icon = document.getElementById('modal-alert-icon') as HTMLElement;
+    const titleEl = document.getElementById('modal-alert-title') as HTMLElement;
+    const messageEl = document.getElementById('modal-alert-message') as HTMLElement;
+
+    if (!modal || !icon || !titleEl || !messageEl) return;
+
+    // Configurar icono y título según el tipo
+    icon.className = 'bi modal-alert__icon';
+    switch (tipo) {
+        case 'success':
+            icon.classList.add('bi-check-circle-fill', 'success');
+            titleEl.textContent = titulo || '¡Éxito!';
+            break;
+        case 'error':
+            icon.classList.add('bi-x-circle-fill', 'error');
+            titleEl.textContent = titulo || 'Error';
+            break;
+        case 'warning':
+            icon.classList.add('bi-exclamation-triangle-fill', 'warning');
+            titleEl.textContent = titulo || 'Advertencia';
+            break;
+        case 'info':
+        default:
+            icon.classList.add('bi-info-circle-fill', 'info');
+            titleEl.textContent = titulo || 'Información';
+            break;
+    }
+
+    // Configurar mensaje
+    messageEl.textContent = mensaje;
+
+    // Mostrar modal
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Cierra el modal de alerta
+ */
+function cerrarAlerta(): void {
+    const modal = document.getElementById('modal-alert') as HTMLElement;
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+/**
+ * Configura los eventos del modal de alerta
+ */
+function configurarModalAlert(): void {
+    const closeBtn = document.getElementById('modal-alert-close');
+    const modal = document.getElementById('modal-alert');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', cerrarAlerta);
+    }
+
+    if (modal) {
+        const overlay = modal.querySelector('.modal-alert__overlay');
+        if (overlay) {
+            overlay.addEventListener('click', cerrarAlerta);
+        }
+    }
+}
 
 
 
@@ -321,8 +398,12 @@ window.addEventListener('DOMContentLoaded', () => {
       // Resetear cantidad a 1
       cantidadInput.value = '1';
 
-      // Mostrar feedback (opcional)
-      alert(`${productoActual.nombre} agregado al carrito (${cantidad} unidad${cantidad > 1 ? 'es' : ''})`);
+      // Mostrar feedback con modal
+      mostrarAlerta(
+        `${productoActual.nombre} agregado al carrito (${cantidad} unidad${cantidad > 1 ? 'es' : ''})`,
+        'success',
+        '¡Agregado al carrito!'
+      );
     });
   }
 });

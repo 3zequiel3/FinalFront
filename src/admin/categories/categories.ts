@@ -1,6 +1,67 @@
 import type { ICategory, ICategoryCreate } from "../../types/ICategory";
 import { envs } from "../../utils/enviromentVariable";
 
+// ==================== MODAL ALERT ====================
+type AlertType = 'success' | 'error' | 'warning' | 'info';
+
+function mostrarAlerta(mensaje: string, tipo: AlertType = 'info', titulo?: string): void {
+    const modal = document.getElementById('modal-alert') as HTMLElement;
+    const icon = document.getElementById('modal-alert-icon') as HTMLElement;
+    const titleEl = document.getElementById('modal-alert-title') as HTMLElement;
+    const messageEl = document.getElementById('modal-alert-message') as HTMLElement;
+
+    if (!modal || !icon || !titleEl || !messageEl) return;
+
+    icon.className = 'bi modal-alert__icon';
+    switch (tipo) {
+        case 'success':
+            icon.classList.add('bi-check-circle-fill', 'success');
+            titleEl.textContent = titulo || '¡Éxito!';
+            break;
+        case 'error':
+            icon.classList.add('bi-x-circle-fill', 'error');
+            titleEl.textContent = titulo || 'Error';
+            break;
+        case 'warning':
+            icon.classList.add('bi-exclamation-triangle-fill', 'warning');
+            titleEl.textContent = titulo || 'Advertencia';
+            break;
+        case 'info':
+        default:
+            icon.classList.add('bi-info-circle-fill', 'info');
+            titleEl.textContent = titulo || 'Información';
+            break;
+    }
+
+    messageEl.textContent = mensaje;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarAlerta(): void {
+    const modal = document.getElementById('modal-alert') as HTMLElement;
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+function configurarModalAlert(): void {
+    const closeBtn = document.getElementById('modal-alert-close');
+    const modal = document.getElementById('modal-alert');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', cerrarAlerta);
+    }
+
+    if (modal) {
+        const overlay = modal.querySelector('.modal-alert__overlay');
+        if (overlay) {
+            overlay.addEventListener('click', cerrarAlerta);
+        }
+    }
+}
+
 // ----------------------------- Funcionalidad para marcar item activo en sidebar -------------------------------
 // Función para marcar item activo
 function setActiveSidebarItem(itemLi: HTMLElement) {
@@ -18,6 +79,8 @@ function setActiveSidebarItem(itemLi: HTMLElement) {
 
 // Marcar Categorías como activo por defecto al cargar la página
 window.addEventListener('DOMContentLoaded', () => {
+  configurarModalAlert();
+  
   // Buscar el item "Categorias" en el sidebar (segundo li)
   const categoriasLi = document.querySelector('.sidebar-categorias ul li:nth-child(2)') as HTMLLIElement;
   if (categoriasLi) {
@@ -115,13 +178,13 @@ const uploadCategoryData = async (categoryName: ICategoryCreate) => {
 
         const responseData = await response.json();
         console.log("Respuesta del servidor:", responseData);
-        alert("Categoría creada con éxito");
+        mostrarAlerta("La categoría se ha creado correctamente", "success", "Categoría creada");
         form.reset();
         modal.style.display = "none";
         await displayCategories();
     } catch (error) {
         console.error("Error al subir los datos de la categoría:", error);
-        alert("Error al crear la categoría");
+        mostrarAlerta("No se pudo crear la categoría. Por favor intenta nuevamente.", "error", "Error al crear");
     }
 }
 
@@ -148,14 +211,14 @@ const updateCategoryData = async (categoryId: number, categoryData: ICategoryCre
 
         const responseData = await response.json();
         console.log("Respuesta del servidor:", responseData);
-        alert("Categoría actualizada con éxito");
+        mostrarAlerta("La categoría se ha actualizado correctamente", "success", "Categoría actualizada");
         form.reset();
         modal.style.display = "none";
         editingCategoryId = null;
         await displayCategories();
     } catch (error) {
         console.error("Error al actualizar la categoría:", error);
-        alert("Error al actualizar la categoría");
+        mostrarAlerta("No se pudo actualizar la categoría. Por favor intenta nuevamente.", "error", "Error al actualizar");
     }
 }
 
@@ -175,7 +238,7 @@ form.addEventListener("submit", async (event: SubmitEvent) => {
         }
     } catch (error) {
         console.error("Error al procesar la categoría:", error);
-        alert("Error al procesar la categoría");
+        mostrarAlerta("Ocurrió un error al procesar la categoría. Por favor intenta nuevamente.", "error", "Error");
     }
 });
 
@@ -302,11 +365,11 @@ const deleteCategoryData = async (categoryId: number) => {
             throw new Error(`Error en la solicitud: ${response.statusText}`);
         }
 
-        alert("Categoría eliminada con éxito");
+        mostrarAlerta("La categoría se ha eliminado correctamente", "success", "Categoría eliminada");
         await displayCategories();
     } catch (error) {
         console.error("Error al eliminar la categoría:", error);
-        alert("Error al eliminar la categoría");
+        mostrarAlerta("No se pudo eliminar la categoría. Por favor intenta nuevamente.", "error", "Error al eliminar");
     }
 }
 

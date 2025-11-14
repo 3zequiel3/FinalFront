@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarPedidos();
     configurarFiltro();
     configurarModal();
+    configurarModalAlert();
 });
 
 // Verificar autenticación
@@ -38,6 +39,82 @@ const initPage = () => {
 };
 
 initPage();
+
+/**
+ * Tipo de alerta para el modal
+ */
+type AlertType = 'success' | 'error' | 'warning' | 'info';
+
+/**
+ * Muestra un modal de alerta personalizado
+ */
+function mostrarAlerta(mensaje: string, tipo: AlertType = 'info', titulo?: string): void {
+    const modal = document.getElementById('modal-alert') as HTMLElement;
+    const icon = document.getElementById('modal-alert-icon') as HTMLElement;
+    const titleEl = document.getElementById('modal-alert-title') as HTMLElement;
+    const messageEl = document.getElementById('modal-alert-message') as HTMLElement;
+
+    if (!modal || !icon || !titleEl || !messageEl) return;
+
+    // Configurar icono y título según el tipo
+    icon.className = 'bi modal-alert__icon';
+    switch (tipo) {
+        case 'success':
+            icon.classList.add('bi-check-circle-fill', 'success');
+            titleEl.textContent = titulo || '¡Éxito!';
+            break;
+        case 'error':
+            icon.classList.add('bi-x-circle-fill', 'error');
+            titleEl.textContent = titulo || 'Error';
+            break;
+        case 'warning':
+            icon.classList.add('bi-exclamation-triangle-fill', 'warning');
+            titleEl.textContent = titulo || 'Advertencia';
+            break;
+        case 'info':
+        default:
+            icon.classList.add('bi-info-circle-fill', 'info');
+            titleEl.textContent = titulo || 'Información';
+            break;
+    }
+
+    // Configurar mensaje
+    messageEl.textContent = mensaje;
+
+    // Mostrar modal
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Cierra el modal de alerta
+ */
+function cerrarAlerta(): void {
+    const modal = document.getElementById('modal-alert') as HTMLElement;
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+/**
+ * Configura los eventos del modal de alerta
+ */
+function configurarModalAlert(): void {
+    const closeBtn = document.getElementById('modal-alert-close');
+    const modal = document.getElementById('modal-alert');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', cerrarAlerta);
+    }
+
+    if (modal) {
+        const overlay = modal.querySelector('.modal-alert__overlay');
+        if (overlay) {
+            overlay.addEventListener('click', cerrarAlerta);
+        }
+    }
+}
 
 // Variable global para almacenar los pedidos
 let todosLosPedidos: IPedido[] = [];
@@ -506,7 +583,7 @@ async function cambiarEstadoPedido(nuevoEstado: 'PENDIENTE' | 'CONFIRMADO' | 'CA
         } else {
             mensaje = 'Transición de estado no permitida.';
         }
-        alert(mensaje);
+        mostrarAlerta(mensaje, 'warning', 'Acción no permitida');
         return;
     }
 
@@ -539,11 +616,11 @@ async function cambiarEstadoPedido(nuevoEstado: 'PENDIENTE' | 'CONFIRMADO' | 'CA
         await cargarPedidos();
 
         // Mostrar mensaje de éxito
-        alert(`✓ Pedido actualizado a ${formatEstado(nuevoEstado)}`);
+        mostrarAlerta(`Pedido actualizado a ${formatEstado(nuevoEstado)}`, 'success', '¡Pedido actualizado!');
 
     } catch (error) {
         console.error('Error al cambiar estado:', error);
-        alert('Error al actualizar el estado del pedido. Por favor intenta nuevamente.');
+        mostrarAlerta('Error al actualizar el estado del pedido. Por favor intenta nuevamente.', 'error');
     }
 }
 

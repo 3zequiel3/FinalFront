@@ -18,16 +18,17 @@
         margin-left: 0;
     }
 }
+
 .modal-producto__img {
     width: 100%;
     max-width: 340px;
     height: 240px;
     object-fit: cover;
     border-radius: 1.1rem;
-    box-shadow: 0 2px 16px #0008;
     background: #23233a;
-    border-bottom: 3px solid #ff00ff33;
+    border-bottom: 0px solid #ff00ff33;
 }
+
 .modal-producto__info {
     flex: 2 1 400px;
     display: flex;
@@ -232,7 +233,7 @@
     min-height: 20rem;
     object-fit: cover;
     border-radius: 0.7rem;
-    border-bottom: 2.5px solid #ff00ff33;
+    border-bottom: 0px solid #ff00ff33;
     background: #23233a;
 }
 
@@ -748,5 +749,120 @@ body {
         font-size: 0.7rem;
         padding: 0.35rem 0.5rem;
         border-radius: 6px;
+    }
+}
+
+/* ==================== MODAL ALERT ==================== */
+.modal-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-alert__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.modal-alert__content {
+    position: relative;
+    background: #1e1e1e;
+    border-radius: 20px;
+    padding: 2.5rem;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    animation: modalAlertIn 0.3s ease;
+}
+
+@keyframes modalAlertIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-alert__icon {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.modal-alert__icon.success {
+    color: #00ff88;
+}
+
+.modal-alert__icon.error {
+    color: #ff4757;
+}
+
+.modal-alert__icon.warning {
+    color: #ffd700;
+}
+
+.modal-alert__icon.info {
+    color: #00d4ff;
+}
+
+.modal-alert__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 1rem 0;
+}
+
+.modal-alert__message {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin: 0 0 2rem 0;
+    white-space: pre-line;
+}
+
+.modal-alert__btn {
+    background: linear-gradient(135deg, #ff00ff 0%, #d900d9 100%);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem 2.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+
+
+@media (max-width: 768px) {
+    .modal-alert__content {
+        padding: 2rem;
+        max-width: 90%;
+    }
+
+    .modal-alert__icon {
+        font-size: 3rem;
+    }
+
+    .modal-alert__title {
+        font-size: 1.3rem;
+    }
+
+    .modal-alert__message {
+        font-size: 0.95rem;
     }
 }

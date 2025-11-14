@@ -2,6 +2,67 @@ import type { ICategory } from "../../types/ICategory";
 import type { IProducto, IProductoCreate } from "../../types/IProducto";
 import { envs } from "../../utils/enviromentVariable";
 
+// ==================== MODAL ALERT ====================
+type AlertType = 'success' | 'error' | 'warning' | 'info';
+
+function mostrarAlerta(mensaje: string, tipo: AlertType = 'info', titulo?: string): void {
+    const modal = document.getElementById('modal-alert') as HTMLElement;
+    const icon = document.getElementById('modal-alert-icon') as HTMLElement;
+    const titleEl = document.getElementById('modal-alert-title') as HTMLElement;
+    const messageEl = document.getElementById('modal-alert-message') as HTMLElement;
+
+    if (!modal || !icon || !titleEl || !messageEl) return;
+
+    icon.className = 'bi modal-alert__icon';
+    switch (tipo) {
+        case 'success':
+            icon.classList.add('bi-check-circle-fill', 'success');
+            titleEl.textContent = titulo || '¡Éxito!';
+            break;
+        case 'error':
+            icon.classList.add('bi-x-circle-fill', 'error');
+            titleEl.textContent = titulo || 'Error';
+            break;
+        case 'warning':
+            icon.classList.add('bi-exclamation-triangle-fill', 'warning');
+            titleEl.textContent = titulo || 'Advertencia';
+            break;
+        case 'info':
+        default:
+            icon.classList.add('bi-info-circle-fill', 'info');
+            titleEl.textContent = titulo || 'Información';
+            break;
+    }
+
+    messageEl.textContent = mensaje;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarAlerta(): void {
+    const modal = document.getElementById('modal-alert') as HTMLElement;
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
+function configurarModalAlert(): void {
+    const closeBtn = document.getElementById('modal-alert-close');
+    const modal = document.getElementById('modal-alert');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', cerrarAlerta);
+    }
+
+    if (modal) {
+        const overlay = modal.querySelector('.modal-alert__overlay');
+        if (overlay) {
+            overlay.addEventListener('click', cerrarAlerta);
+        }
+    }
+}
+
 // ----------------------------- Funcionalidad para marcar item activo en sidebar -------------------------------
 // Función para marcar item activo
 function setActiveSidebarItem(itemLi: HTMLElement) {
@@ -19,6 +80,8 @@ function setActiveSidebarItem(itemLi: HTMLElement) {
 
 // Marcar Productos como activo por defecto al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
+  configurarModalAlert();
+  
   // Buscar el item "Productos" en el sidebar (tercer li)
   const productosLi = document.querySelector('.sidebar-categorias ul li:nth-child(3)') as HTMLLIElement;
   if (productosLi) {
@@ -282,8 +345,9 @@ async function deleteProduct() {
         // Recargar la lista de productos
         await displayProducts();
         hideDeleteModal();
+        mostrarAlerta('El producto se ha eliminado correctamente', 'success', 'Producto eliminado');
     } catch (e) {
-        alert('No se pudo eliminar el producto');
+        mostrarAlerta('No se pudo eliminar el producto. Por favor intenta nuevamente.', 'error', 'Error al eliminar');
     }
 }
 
