@@ -758,8 +758,6 @@ body {
     max-width: 450px;
     width: 90%;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(255, 0, 255, 0.3);
-    border: 1px solid rgba(255, 0, 255, 0.2);
     animation: modalAlertIn 0.3s ease;
 }
 
@@ -820,13 +818,6 @@ body {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(255, 0, 255, 0.4);
-}
-
-.modal-alert__btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 0, 255, 0.6);
 }
 
 @media (max-width: 768px) {

@@ -1,9 +1,5 @@
 - correguir para podes escribir en el numero de pedido
 - para evitar agregr al carrito mas del stock disponible
-- arreglar boton tienda, desde pedidos
-- alerts en pedidos
-- alerts en eliminar categoria
-- para los alerts tomar como ejemplo los modales que tenemos en eliminar producto estan buenos
 
 administador:
     admin@sistema.com

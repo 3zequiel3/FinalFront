@@ -404,10 +404,43 @@ categoryList.addEventListener("click", (event) => {
         const categoryIdStr = target.dataset.id;
         if (categoryIdStr) {
             const categoryId = parseInt(categoryIdStr);
-            const confirmDelete = confirm("¿Estás seguro de que deseas eliminar esta categoría?");
-            if (confirmDelete) {
+            
+            // Crear modal de confirmación personalizado
+            const modalConfirm = document.createElement('div');
+            modalConfirm.id = 'modal-confirm-delete';
+            modalConfirm.className = 'modal-alert';
+            modalConfirm.innerHTML = `
+                <div class="modal-alert__overlay"></div>
+                <div class="modal-alert__content">
+                    <i class="bi bi-exclamation-triangle-fill modal-alert__icon warning"></i>
+                    <h3 class="modal-alert__title">Confirmar eliminación</h3>
+                    <p class="modal-alert__message">¿Estás seguro de que deseas eliminar esta categoría?</p>
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                        <button id="confirm-delete-btn" class="modal-alert__btn" style="background-color: #dc3545;">Eliminar</button>
+                        <button id="cancel-delete-btn" class="modal-alert__btn" style="background-color: #6c757d;">Cancelar</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modalConfirm);
+            modalConfirm.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            const confirmBtn = modalConfirm.querySelector('#confirm-delete-btn');
+            const cancelBtn = modalConfirm.querySelector('#cancel-delete-btn');
+            const overlay = modalConfirm.querySelector('.modal-alert__overlay');
+            
+            const closeModal = () => {
+                modalConfirm.remove();
+                document.body.style.overflow = '';
+            };
+            
+            confirmBtn?.addEventListener('click', () => {
                 deleteCategoryData(categoryId);
-            }
+                closeModal();
+            });
+            
+            cancelBtn?.addEventListener('click', closeModal);
+            overlay?.addEventListener('click', closeModal);
         }
     }
 });

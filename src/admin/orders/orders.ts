@@ -587,41 +587,73 @@ async function cambiarEstadoPedido(nuevoEstado: 'PENDIENTE' | 'CONFIRMADO' | 'CA
         return;
     }
 
-    // Confirmar acción
-    const confirmacion = confirm(`¿Estás seguro de cambiar el estado del pedido a ${formatEstado(nuevoEstado)}?`);
-    if (!confirmacion) return;
+    // Confirmar acción con modal personalizado
+    const modalConfirm = document.createElement('div');
+    modalConfirm.id = 'modal-confirm-estado';
+    modalConfirm.className = 'modal-alert';
+    modalConfirm.innerHTML = `
+        <div class="modal-alert__overlay"></div>
+        <div class="modal-alert__content">
+            <i class="bi bi-exclamation-triangle-fill modal-alert__icon warning"></i>
+            <h3 class="modal-alert__title">Confirmar cambio de estado</h3>
+            <p class="modal-alert__message">¿Estás seguro de cambiar el estado del pedido a ${formatEstado(nuevoEstado)}?</p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button id="confirm-estado-btn" class="modal-alert__btn" style="background-color: #3498db;">Confirmar</button>
+                <button id="cancel-estado-btn" class="modal-alert__btn" style="background-color: #6c757d;">Cancelar</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modalConfirm);
+    modalConfirm.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    const confirmBtn = modalConfirm.querySelector('#confirm-estado-btn');
+    const cancelBtn = modalConfirm.querySelector('#cancel-estado-btn');
+    const overlay = modalConfirm.querySelector('.modal-alert__overlay');
+    
+    const closeModal = () => {
+        modalConfirm.remove();
+        document.body.style.overflow = '';
+    };
+    
+    confirmBtn?.addEventListener('click', async () => {
+        closeModal();
+        
+        try {
+            const response = await fetch(`${API_URL}/pedidos/${pedidoActual!.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ estado: nuevoEstado })
+            });
 
-    try {
-        const response = await fetch(`${API_URL}/pedidos/${pedidoActual.id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ estado: nuevoEstado })
-        });
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error || 'Error al actualizar el pedido');
+            }
 
-        if (!response.ok) {
-            const error = await response.text();
-            throw new Error(error || 'Error al actualizar el pedido');
+            // Actualizar el pedido en la lista
+            const pedidoIndex = todosLosPedidos.findIndex(p => p.id === pedidoActual!.id);
+            if (pedidoIndex !== -1) {
+                todosLosPedidos[pedidoIndex].estado = nuevoEstado;
+            }
+
+            // Cerrar modal y recargar
+            cerrarModalDetalle();
+            await cargarPedidos();
+
+            // Mostrar mensaje de éxito
+            mostrarAlerta(`Pedido actualizado a ${formatEstado(nuevoEstado)}`, 'success', '¡Pedido actualizado!');
+
+        } catch (error) {
+            console.error('Error al cambiar estado:', error);
+            mostrarAlerta('Error al actualizar el estado del pedido. Por favor intenta nuevamente.', 'error');
         }
-
-        // Actualizar el pedido en la lista
-        const pedidoIndex = todosLosPedidos.findIndex(p => p.id === pedidoActual!.id);
-        if (pedidoIndex !== -1) {
-            todosLosPedidos[pedidoIndex].estado = nuevoEstado;
-        }
-
-        // Cerrar modal y recargar
-        cerrarModalDetalle();
-        await cargarPedidos();
-
-        // Mostrar mensaje de éxito
-        mostrarAlerta(`Pedido actualizado a ${formatEstado(nuevoEstado)}`, 'success', '¡Pedido actualizado!');
-
-    } catch (error) {
-        console.error('Error al cambiar estado:', error);
-        mostrarAlerta('Error al actualizar el estado del pedido. Por favor intenta nuevamente.', 'error');
-    }
+    });
+    
+    cancelBtn?.addEventListener('click', closeModal);
+    overlay?.addEventListener('click', closeModal);
 }
 
 /**

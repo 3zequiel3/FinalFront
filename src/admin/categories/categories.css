@@ -537,7 +537,6 @@ body {
 }
 
 .modal-alert__btn {
-    background: linear-gradient(135deg, #ff00ff 0%, #d900d9 100%);
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -548,10 +547,7 @@ body {
     transition: all 0.3s;
 }
 
-.modal-alert__btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 0, 255, 0.6);
-}
+
 
 @media (max-width: 768px) {
     .modal-alert__content {
