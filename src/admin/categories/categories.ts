@@ -1,4 +1,4 @@
-import type { ICategory, ICategoryCreate } from "../../types/ICategory";
+import type { ICategoryCreate } from "../../types/ICategory";
 import { envs } from "../../utils/enviromentVariable";
 
 // ==================== MODAL ALERT ====================

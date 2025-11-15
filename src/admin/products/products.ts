@@ -160,7 +160,7 @@ const API_URL = envs.API_URL;
 
 // Variables globales para autocompletado
 let allCategories: ICategory[] = [];
-let selectedCategoryId: string | null = null;
+let selectedCategoryId: number | null = null;
 let currentSuggestionIndex = -1;
 
 // Funciones del autocompletado de categorías
@@ -262,7 +262,7 @@ function selectSuggestion(item: HTMLDivElement) {
     inputCategoriaProducto.value = categoryName;
     if (categoryId && hiddenCategoriaProductoId) {
         hiddenCategoriaProductoId.value = categoryId;
-        selectedCategoryId = categoryId;
+        selectedCategoryId = parseInt(categoryId);
     }
 
     hideSuggestions();
@@ -279,8 +279,8 @@ function setSelectedCategory(categoryNombre: string | null) {
     const category = allCategories.find(cat => cat.nombre === categoryNombre);
     if (category) {
         inputCategoriaProducto.value = category.nombre;
-        hiddenCategoriaProductoId.value = category.id;
-        selectedCategoryId = category.id.toString();
+        hiddenCategoriaProductoId.value = category.id.toString();
+        selectedCategoryId = typeof category.id === 'string' ? parseInt(category.id) : category.id;
     }
 }
 
